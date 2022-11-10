@@ -1,4 +1,4 @@
-package com.alkemy.wallet;
+package com.nocountry.wallet;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

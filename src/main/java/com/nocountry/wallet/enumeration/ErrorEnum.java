@@ -1,0 +1,20 @@
+package com.nocountry.wallet.enumeration;
+
+public enum ErrorEnum {
+
+    TRANSACTION_LIMIT("You have exceeded the transaction limit"),
+    REQUEST_FAILED("The request was not completed"),
+    INSUFFICIENT_BALANCE("You need more balance for this payment"),
+    OBJECT_NOT_FOUND("The requested object was not found"),
+    ACCOUNTS_DIFERENT_CURRENCY("The transactions between accounts has diferent currency");
+
+    private String errorMessage;
+
+    ErrorEnum(String message){
+        this.errorMessage= message;
+    }
+
+    public String getMessage(){return errorMessage;}
+
+
+}

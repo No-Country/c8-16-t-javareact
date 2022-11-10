@@ -8,11 +8,11 @@
 		<version>2.7.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.alkemy</groupId>
+	<groupId>com.nocountry</groupId>
 	<artifactId>wallet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>wallet</name>
-	<description>Alkemy technical challenge - Wallet project</description>
+	<description>Project for No Country - Group C8-16</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -54,6 +54,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
