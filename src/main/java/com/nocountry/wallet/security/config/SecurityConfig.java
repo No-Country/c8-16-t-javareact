@@ -1,4 +1,4 @@
-package com.alkemy.wallet.security.config;
+package com.nocountry.wallet.security.config;
 
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
