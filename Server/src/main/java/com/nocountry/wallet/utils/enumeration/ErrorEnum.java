@@ -1,4 +1,4 @@
-package com.nocountry.wallet.enumeration;
+package com.nocountry.wallet.utils.enumeration;
 
 /**
  * Whit this Enum we improve send message to exceptions, and not hardcode.

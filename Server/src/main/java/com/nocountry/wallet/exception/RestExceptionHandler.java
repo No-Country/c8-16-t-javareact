@@ -1,6 +1,6 @@
 package com.nocountry.wallet.exception;
 
-import com.nocountry.wallet.dto.ApiErrorDTO;
+import com.nocountry.wallet.models.response.ApiErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
