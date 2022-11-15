@@ -48,12 +48,16 @@ import java.util.Set;
         @Column(name = "soft_delete", nullable = false)
         private Boolean softDelete = Boolean.FALSE;
 
+        /*
+        * Esperando para hacer relacion con account
+        * */
         @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
         @JoinTable(name = "user_role",
                 joinColumns = {@JoinColumn(name = "id_user")},
                 inverseJoinColumns = {@JoinColumn(name = "role_id")})
         private Set<RoleEntity> roleEntityId;
-/*
+
+
         public UserEntity(String firstName, String lastName, String email, String password, String photo,
                           Timestamp timestamp, Set<RoleEntity> roleEntity) {
             this.firstName = firstName;
@@ -63,6 +67,6 @@ import java.util.Set;
             this.photo = photo;
             this.timestamp = timestamp;
             this.roleEntityId = roleEntity;
-        }*/
+        }
     }
 
