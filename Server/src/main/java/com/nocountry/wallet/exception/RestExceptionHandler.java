@@ -27,5 +27,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return handleExceptionInternal((Exception) ex, apiErrorDTO, new HttpHeaders(), apiErrorDTO.getStatus(), req);
     }
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = BadRequestException.class)
+    protected ResponseEntity<Object> handleBadRequest(Throwable ex, WebRequest req) {
+        ApiErrorDTO apiErrorDTO = new ApiErrorDTO(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                Arrays.asList("")
+        );
+        return handleExceptionInternal((Exception) ex, apiErrorDTO, new HttpHeaders(), apiErrorDTO.getStatus(), req);
+    }
 }
 
