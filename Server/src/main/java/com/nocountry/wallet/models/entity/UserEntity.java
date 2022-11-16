@@ -36,6 +36,9 @@ import java.util.Set;
         @Column(unique = true, nullable = false, name = "email")
         private String email;
 
+        @Column(unique = true, nullable = false, name = "dni")
+        private String dni;
+
         @Column(nullable = false, name = "password")
         private String password;
 
@@ -59,11 +62,12 @@ import java.util.Set;
         private Collection<RoleEntity> roles;
 
 
-        public UserEntity(String firstName, String lastName, String email, String password, String photo,
+        public UserEntity(String firstName, String lastName, String email, String dni, String password, String photo,
                           Timestamp timestamp, Set<RoleEntity> roleEntity) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
+            this.dni = dni;
             this.password = password;
             this.photo = photo;
             this.timestamp = timestamp;
