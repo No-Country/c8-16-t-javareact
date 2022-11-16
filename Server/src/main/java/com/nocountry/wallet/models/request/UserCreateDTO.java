@@ -9,12 +9,12 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserCreateDTO {
-    //@Max(value= 25)
+    @Max(value= 25)
     private String firstName;
-    //@Max(value=25)
+    @Max(value=25)
     private String lastName;
-    //@Email(message = "Username must be an email")
+    @Email(message = "Username must be an email")
     private String email;
-    //@Size(min=8)
+    @Size(min=8)
     private String password;
 }

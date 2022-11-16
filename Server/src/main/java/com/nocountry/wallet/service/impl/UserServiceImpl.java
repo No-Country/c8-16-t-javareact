@@ -11,6 +11,7 @@ import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.auth.JwtUtils;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@AllArgsConstructor@Slf4j
 public class UserServiceImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
@@ -75,6 +76,7 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String userAuth(AuthRequestDTO authRequest){
         UserDetails userDetails;
+        log.info("Try authenticate");
         try {
             Authentication auth = authProvider.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getEmail(),authRequest.getPassword())
@@ -84,6 +86,7 @@ public class UserServiceImpl implements IUserService {
         } catch (BadCredentialsException e) {
             throw new BadRequestException(ErrorEnum.BAD_CREDENTIALS.getMessage());
         }
+        log.info("Generate Token for {}", authRequest.getEmail());
         final String jwt = jwtUtils.generateToken(userDetails);
         return jwt;
     }

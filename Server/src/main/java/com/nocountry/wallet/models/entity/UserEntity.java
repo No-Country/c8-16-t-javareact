@@ -7,6 +7,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -55,7 +56,7 @@ import java.util.Set;
         @JoinTable(name = "user_role",
                 joinColumns = {@JoinColumn(name = "id_user")},
                 inverseJoinColumns = {@JoinColumn(name = "role_id")})
-        private Set<RoleEntity> roleEntityId;
+        private Collection<RoleEntity> roles;
 
 
         public UserEntity(String firstName, String lastName, String email, String password, String photo,
@@ -66,7 +67,7 @@ import java.util.Set;
             this.password = password;
             this.photo = photo;
             this.timestamp = timestamp;
-            this.roleEntityId = roleEntity;
+            this.roles = roleEntity;
         }
     }
 
