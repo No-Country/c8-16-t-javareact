@@ -4,10 +4,8 @@ import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.http.ResponseEntity;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 public interface IUserService{
@@ -16,6 +14,6 @@ public interface IUserService{
 
     Optional<UserEntity> findById(Long id);
     UserResponseDTO getUserById(Long userId);
-    void deleteUser(Long id);
+    ResponseEntity<Void> deleteUser(Long id, String token);
 
 }
