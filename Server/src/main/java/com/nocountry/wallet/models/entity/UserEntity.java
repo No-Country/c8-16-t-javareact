@@ -59,7 +59,7 @@ import java.util.Set;
         @JoinTable(name = "user_role",
                 joinColumns = {@JoinColumn(name = "id_user")},
                 inverseJoinColumns = {@JoinColumn(name = "role_id")})
-        private Collection<RoleEntity> roles;
+        private Set<RoleEntity> roles;
 
 
         public UserEntity(String firstName, String lastName, String email, String dni, String password, String photo,

@@ -13,11 +13,14 @@ import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +44,7 @@ public class AuthServiceImpl implements IAuthService {
             UserEntity entity = userMapper.convert2Entity(dto);
             entity.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(dto.getPassword()));
             Collection<RoleEntity> userRole = roleRepository.findByName("ROLE_USER");
-            entity.setRoles(userRole);
+            entity.setRoles((Set<RoleEntity>) userRole);
             UserEntity entitySaved = userRepository.save(entity);
             //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.ARS));
             //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.USD));
@@ -70,5 +73,28 @@ public class AuthServiceImpl implements IAuthService {
         }else{
             throw new BadRequestException(ErrorEnum.INVALID_PASSWORD.getMessage());
         }
+    }
+
+    @Override
+    public boolean roleValidator(Long id, String token) {
+        UserEntity entity = getUserEntityByToken(token);
+        Long tokenId = entity.getId();
+        boolean tokenIsAdmin = false;
+        Set<RoleEntity> tokenRoles = entity.getRoles();
+        for (RoleEntity role : tokenRoles) {
+            if (role.getName().equals("ROLE_ADMIN")) {
+                tokenIsAdmin = true;
+            }
+        }
+        return (id.equals(tokenId) || tokenIsAdmin);
+    }
+
+    @Override
+    public UserEntity getUserEntityByToken(String token) {
+        token = token.replace("Bearer ", "");
+        String email = jwtUtils.extractUsername(token);
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the searched user does not exist"));
+        return userEntity;
     }
 }

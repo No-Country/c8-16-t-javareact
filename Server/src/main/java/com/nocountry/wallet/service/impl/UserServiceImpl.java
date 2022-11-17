@@ -7,12 +7,15 @@ import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.UserRepository;
+import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.auth.JwtUtils;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -22,7 +25,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.Optional;
 
 @Service
@@ -35,13 +37,28 @@ public class UserServiceImpl implements IUserService {
     private final DaoAuthenticationProvider authProvider;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    IAuthService authService;
+/*
     @Override
-    public void deleteUser(Long id) {
+    public ResponseEntity<Void> deleteUser(Long id) {
         UserEntity userSelected = userRepository.findById(id).orElseThrow(()-> new BadRequestException(ErrorEnum.OBJECT_NOT_FOUND.getMessage()));
         userSelected.setSoftDelete(true);
         userRepository.save(userSelected);
+        return null;
     }
-
+*/
+@Override
+public ResponseEntity<Void> deleteUser(Long id, String token) {
+    ResponseEntity<Void> response;
+    if (authService.roleValidator(id, token)){
+        userRepository.deleteById(id);
+        response = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } else {
+        response = ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+    return response;
+}
     @Override
     public Optional<UserEntity> findById(Long id) {
         return userRepository.findById(id);
