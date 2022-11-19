@@ -5,6 +5,7 @@ import com.nocountry.wallet.auth.UserDetailsCustomService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
-                .antMatchers("/users/**").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET,"/users").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .and().sessionManagement()
