@@ -5,6 +5,7 @@ import com.nocountry.wallet.exception.BadRequestException;
 import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAuthService;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -59,6 +61,13 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
     }
     return response;
 }
+
+    @Override
+    public List<UserDetailDTO> getAllUsers() {
+        log.info("Search all users in database with findAll and mapping to List<UserDetailDTO>");
+        return userMapper.convertEntities2ListDTO(userRepository.findAll());
+    }
+
     @Override
     public Optional<UserEntity> findById(Long id) {
         return userRepository.findById(id);
@@ -66,13 +75,13 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
 
 
     @Override
-    public UserResponseDTO getUserById(Long userId) {
+    public UserDetailDTO getUserById(Long userId) {
         Optional<UserEntity> userOptional = userRepository.findById(userId);
 
         if(userOptional.isEmpty())
             throw new BadRequestException(ErrorEnum.OBJECT_NOT_FOUND.getMessage());
 
-        return userMapper.convert2DTO(userOptional.get());
+        return userMapper.convert2DetailDTO(userOptional.get());
     }
     @Override
     public boolean save(UserCreateDTO userDTO){
