@@ -1,6 +1,7 @@
+
 import { useState } from "react"
 
-const signIn = () => {
+const SignIn = () => {
 
   const [values, setValues] = useState({
     email:"",
@@ -48,4 +49,4 @@ const signIn = () => {
   )
 }
 
-export default signIn
+export default SignIn
