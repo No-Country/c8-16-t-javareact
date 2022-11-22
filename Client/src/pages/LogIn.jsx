@@ -1,6 +1,7 @@
+
 import { useState } from "react"
 
-const logIn = () => {
+const LogIn = () => {
 const [values, setValues] = useState({
   email:"",
   password:""
@@ -17,6 +18,7 @@ console.log(values);
 const handleSubmit = () => {
   alert("datos enviados")
 }
+
 
   return (
     <div >
@@ -37,4 +39,4 @@ const handleSubmit = () => {
   )
 }
 
-export default logIn
+export default LogIn

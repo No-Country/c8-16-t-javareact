@@ -1,6 +1,7 @@
+
 import { useState } from "react"
 
-const signIn = () => {
+const SignIn = () => {
 
   const [values, setValues] = useState({
     email:"",
@@ -17,16 +18,18 @@ const signIn = () => {
       [name] : value
     })
   }
-  console.log(values);
+  
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     alert('datos enviados')
+    console.log(values);
   }
 
   return (
-    <div className="flex-col">
-      <div className="bg-gray-400 rounded-full w-[155px] h-[155px] mx-auto mt-[50px] text-3xl text-center">
-        LOGO
+    <div className="h-[682px]">
+      <div className="bg-lightGreen rounded-b-[50px] w-[360px] h-[151px] mx-auto text-3xl text-center">
+        <p>logo</p>
       </div>
 
       <form onSubmit={handleSubmit} className=" w-[312px] mx-auto mt-[114px] flex flex-col gap-y-7">
@@ -46,4 +49,4 @@ const signIn = () => {
   )
 }
 
-export default signIn
+export default SignIn
