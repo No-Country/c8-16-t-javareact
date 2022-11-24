@@ -9,10 +9,11 @@ import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.RoleRepository;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.security.config.PasswordEncoder;
+import com.nocountry.wallet.service.EmailService;
 import com.nocountry.wallet.service.IAuthService;
-import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements IAuthService {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
+    EmailService emailService;
 
     @Override
     public UserResponseDTO saveUser(UserCreateDTO dto){
@@ -48,6 +51,8 @@ public class AuthServiceImpl implements IAuthService {
             UserEntity entitySaved = userRepository.save(entity);
             //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.ARS));
             //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.USD));
+            if (!entitySaved.getEmail().contains("test"))
+                emailService.sendRegisterMail(entitySaved.getEmail());
             UserResponseDTO responseDto = userMapper.convert2DTO(entitySaved);
             AuthRequestDTO authDTO = new AuthRequestDTO(dto.getEmail(), dto.getPassword());
             AuthResponseDTO login = login(authDTO);

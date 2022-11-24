@@ -1,6 +1,5 @@
 package com.nocountry.wallet.models.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -15,6 +14,8 @@ public class UserCreateDTO {
     private String lastName;
     @Email(message = "Username must be an email")
     private String email;
+    @Max(value= 10)
+    private String dni;
     @Size(min=8)
     private String password;
 }
