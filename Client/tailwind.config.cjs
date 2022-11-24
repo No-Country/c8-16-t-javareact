@@ -4,10 +4,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        lightGreen : "#3CAF00",
-        darkGreen : "#018B02",
-        lightGrey : "#CECECE",
-        darkGrey : "#848484"
+        lightGreen: "#3CAF00",
+        darkGreen: "#018B02",
+        lightGrey: "#CECECE",
+        darkGrey: "#848484",
       },
       fontFamily: {
         Lato: "Lato",

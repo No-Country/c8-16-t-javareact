@@ -2,7 +2,7 @@ package com.nocountry.wallet.security.config.seeder;
 
 import com.nocountry.wallet.models.entity.*;
 import com.nocountry.wallet.repository.*;
-import com.nocountry.wallet.utils.RoleEnum;
+import com.nocountry.wallet.utils.enumeration.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
