@@ -1,7 +1,16 @@
-
-import { useState } from "react"
+import { validations } from "../utilities/validations";
+import {useState} from "react";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
+
+  const [touched, setTouched] = useState("");
+
+  const handleBlur = (string) => {
+    setTouched(string)
+  }
+
+  const [errors, setErrors] = useState({});
 
   const [values, setValues] = useState({
     email:"",
@@ -17,32 +26,45 @@ const SignIn = () => {
       ...values,
       [name] : value
     })
+    setErrors(
+      validations({
+        ...values,
+        [name] : value
+      })
+    )
   }
-  console.log(values);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     alert('datos enviados')
+    console.log(values);
   }
+
 
   return (
-    <div className="flex-col">
-      <div className="bg-gray-400 rounded-full w-[155px] h-[155px] mx-auto mt-[50px] text-3xl text-center">
-        LOGO
+    <div >
+      <div className="bg-lightGreen rounded-b-[50px] w-[360px] h-[151px] mx-auto text-3xl text-center">
+        <p>logo</p>
       </div>
 
-      <form onSubmit={handleSubmit} className=" w-[312px] mx-auto mt-[114px] flex flex-col gap-y-7">
-        <input value={values.email} name='email' id="email" type="email" placeholder="Ingresar e-mail" className="inputForm w-full" onChange={handleInputChange}/>
+      <p className="w-[312px] mx-auto mt-[50px] mb-[20px] text-darkGrey">Para registrarte, ingresa los siguientes datos por favor</p>
+
+      <form onSubmit={handleSubmit} className=" w-[312px] mx-auto flex flex-col gap-y-[20px]">
+      <input onBlur={() => handleBlur("email")} value={values.email} name='email' id="email" type="email" placeholder="Ingresar e-mail" className="inputForm w-full" onChange={handleInputChange}/>
+        {(errors.email && (touched == "email")) && <p>{errors.email}</p>}
         <input value={values.dni} name='dni' id="dni" type="text" placeholder="DNI / CUIT" className="inputForm w-full" onChange={handleInputChange}/>
         <input value={values.birthdate} name='birthdate' id="birthdate" type="date" placeholder="Fecha de nacimiento" className="inputForm w-full" onChange={handleInputChange}/>
 
         <span className="flex w-full gap-x-[10px]">
-          <input value={values.name} name="name" id="name" type="text" placeholder="Nombre" className="inputForm w-[150px]" onChange={handleInputChange}/>
+        <input onBlur={() => handleBlur("name")} value={values.name} name="name" id="name" type="text" placeholder="Nombre" className="inputForm w-[150px]" onChange={handleInputChange}/>
+          {(errors.name && (touched == "name")) && <p>{errors.name}</p>}
           <input value={values.lastname} name="lastname" id="lastname" type="text" placeholder="Apellido" className="inputForm w-[150px]" onChange={handleInputChange}/>
         </span>
 
-        <button type="submit" className="w-full h-[40px] bg-gray-500 text-white font-semibold rounded-[20px]">Confirmar</button>
-
+        <button type="submit" className="w-full h-[40px] bg-lightGreen text-white font-semibold rounded-[20px] mt-[77px]">Confirmar</button>
       </form>
+
+      <Link to='/welcome' className="flex mt-[20px] mb-[50px] text-lightGreen justify-center">Volver</Link>
     </div>
   )
 }

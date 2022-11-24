@@ -2,19 +2,17 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    colors: {
-      GreenPrimary: "#3CAF00",
-      GreenSecondary: "#018B02",
-      GrayPrimary: "#848484",
-      GraySecondary: "#CECECE",
-      Black: "#000000",
+    extend: {
+      colors: {
+        lightGreen: "#3CAF00",
+        darkGreen: "#018B02",
+        lightGrey: "#CECECE",
+        darkGrey: "#848484",
+      },
+      fontFamily: {
+        Lato: "Lato",
+      },
     },
-
-    fontFamily: {
-      Lato: "Lato",
-    },
-
-    extend: {},
   },
   plugins: [],
 };
