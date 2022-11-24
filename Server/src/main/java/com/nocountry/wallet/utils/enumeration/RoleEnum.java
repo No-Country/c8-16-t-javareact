@@ -1,4 +1,4 @@
-package com.nocountry.wallet.utils;
+package com.nocountry.wallet.utils.enumeration;
 
 public enum RoleEnum {
     USER, ADMIN;
