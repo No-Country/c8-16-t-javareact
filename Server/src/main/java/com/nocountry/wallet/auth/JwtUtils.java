@@ -1,7 +1,9 @@
 package com.nocountry.wallet.auth;
 
+import com.nocountry.wallet.exception.BadRequestException;
 import com.nocountry.wallet.repository.UserRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
@@ -53,6 +55,11 @@ public class JwtUtils {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){
+        try{
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody().getSubject();
+        }catch (ExpiredJwtException e){
+            throw new RuntimeException(e.getMessage());
+        }
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
