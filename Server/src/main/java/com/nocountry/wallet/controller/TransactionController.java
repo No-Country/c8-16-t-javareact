@@ -2,6 +2,8 @@ package com.nocountry.wallet.controller;
 
 
 import com.nocountry.wallet.models.request.TransCreateDTO;
+import com.nocountry.wallet.models.request.TransDetailDTO;
+import com.nocountry.wallet.models.request.TransPageDTO;
 import com.nocountry.wallet.models.request.TransUpdateDTO;
 import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.service.ITransactionService;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transactions")
@@ -36,6 +39,17 @@ public class TransactionController {
         Long user_id = GetTokenData.getUserIdFromToken(token);
         transactionService.updateTransaction(transactionUpdateDTO, id, user_id);
         return ResponseEntity.ok().build();
+
+    }
+    @GetMapping("/{page}")
+    ResponseEntity<TransPageDTO> findAllMyTransactions(@PathVariable Integer page,
+                                                       @RequestHeader("Authorization") String bearerToken)
+            throws ParseException {
+        //Extract token
+        String token = bearerToken.substring("Bearer ".length());
+        //Call static method
+        Long user_id = GetTokenData.getUserIdFromToken(token);
+        return ResponseEntity.ok().body(transactionService.findAllByUserId(user_id, page));
 
     }
 
