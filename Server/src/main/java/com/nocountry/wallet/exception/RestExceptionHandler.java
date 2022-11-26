@@ -1,6 +1,7 @@
 package com.nocountry.wallet.exception;
 
 import com.nocountry.wallet.models.response.ApiErrorDTO;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleBadRequest(Throwable ex, WebRequest req) {
         ApiErrorDTO apiErrorDTO = new ApiErrorDTO(
                 HttpStatus.BAD_REQUEST,
+                ex.getMessage(),
+                Arrays.asList("")
+        );
+        return handleExceptionInternal((Exception) ex, apiErrorDTO, new HttpHeaders(), apiErrorDTO.getStatus(), req);
+    }
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = ExpiredJwtException.class)
+    protected ResponseEntity<Object> handleExpiredToken(Throwable ex, WebRequest req) {
+        ApiErrorDTO apiErrorDTO = new ApiErrorDTO(
+                HttpStatus.UNAUTHORIZED,
                 ex.getMessage(),
                 Arrays.asList("")
         );

@@ -1,5 +1,7 @@
 package com.nocountry.wallet.auth;
 
+import com.nocountry.wallet.exception.BadRequestException;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -37,7 +39,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if( username != null && SecurityContextHolder.getContext().getAuthentication() == null){
 
             UserDetails userDetails = this.userDetailsCustomService.loadUserByUsername(username);
-
             if(jwtUtil.validateToken(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authReq =
                         new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());

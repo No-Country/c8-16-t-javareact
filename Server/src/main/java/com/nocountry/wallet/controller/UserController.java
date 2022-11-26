@@ -3,6 +3,8 @@ package com.nocountry.wallet.controller;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.service.IUserService;
+import com.nocountry.wallet.utils.GetTokenData;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -16,8 +18,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private IUserService userService;
-    @GetMapping("/detail/{id}")
-    //@PreAuthorize("#username == authentication.principal.username")
+    @GetMapping("/detail/{id}") //Only ADMIN access
     public ResponseEntity<UserDetailDTO> getUserById(@PathVariable Long id){
 
         return ResponseEntity.ok().body(userService.getUserById(id));
@@ -31,5 +32,14 @@ public class UserController {
     @GetMapping()
     public ResponseEntity<List<UserDetailDTO>> getAllUsers(){
         return ResponseEntity.ok().body(userService.getAllUsers());
+    }
+    @GetMapping("/detail")
+    public ResponseEntity<UserDetailDTO> getUserDetail(@RequestHeader(name= "Authorization") String bearerToken)
+        throws ParseException {
+        //Extract token
+        String token = bearerToken.substring("Bearer ".length());
+        //Call static method
+        Long user_id = GetTokenData.getUserIdFromToken(token);
+        return ResponseEntity.ok().body(userService.getUserById(user_id));
     }
 }
