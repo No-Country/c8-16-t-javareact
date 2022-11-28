@@ -10,7 +10,7 @@ module.exports = {
         darkGrey: "#848484",
       },
       fontFamily: {
-        Lato: "Lato",
+        Raleway: "'Raleway', sans-serif;",
       },
     },
   },
