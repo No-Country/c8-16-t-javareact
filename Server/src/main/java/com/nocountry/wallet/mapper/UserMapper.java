@@ -2,8 +2,10 @@ package com.nocountry.wallet.mapper;
 
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
+import com.nocountry.wallet.models.response.UserUpdateResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -34,4 +36,26 @@ public class UserMapper {
         return result;
     }
 
+    public UserEntity userUpdateDTO2Entity(UserUpdateDTO userUpdateDTO) {
+        return mapper.map(userUpdateDTO, UserEntity.class);
+    }
+
+    public UserUpdateResponse userEntity2UserUpdateResponse(UserEntity userEntity) {
+        UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
+        userUpdateResponse.setFirstName(userEntity.getFirstName());
+        userUpdateResponse.setLastName(userEntity.getLastName());
+        userUpdateResponse.setDni(userEntity.getDni());
+        userUpdateResponse.setPassword(userEntity.getPassword());
+        userUpdateResponse.setPhoto(userEntity.getPhoto());
+        return userUpdateResponse;
+    }
+    /*
+    public UserCreateDTO userEntity2DTO(UserEntity user){
+        UserCreateDTO userDTO = new UserCreateDTO();
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPassword(user.getPassword());
+        return userDTO;
+    }
+*/
 }
