@@ -1,4 +1,4 @@
-package com.nocountry.wallet.service.impl;
+package com.nocountry.wallet.security.config.service.impl;
 
 
 import com.nocountry.wallet.exception.TransactionException;
@@ -10,7 +10,7 @@ import com.nocountry.wallet.models.request.TransPageDTO;
 import com.nocountry.wallet.models.request.TransUpdateDTO;
 import com.nocountry.wallet.repository.AccountRepository;
 import com.nocountry.wallet.repository.TransactionRepository;
-import com.nocountry.wallet.service.ITransactionService;
+import com.nocountry.wallet.security.config.service.ITransactionService;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import com.nocountry.wallet.utils.enumeration.TypeTransaction;
 import com.nocountry.wallet.utils.enumeration.UrlEnum;

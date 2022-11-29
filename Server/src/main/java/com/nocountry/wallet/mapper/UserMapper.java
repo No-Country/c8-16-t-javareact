@@ -6,8 +6,10 @@ import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
+import com.nocountry.wallet.security.config.service.AwsService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,12 +20,23 @@ public class UserMapper {
 
     private final ModelMapper mapper;
 
+    @Autowired
+    AwsService awsService;
+
+
     public UserResponseDTO convert2DTO(UserEntity dto) {
         return mapper.map(dto, UserResponseDTO.class);
     }
 
     public UserEntity convert2Entity(UserCreateDTO dto) {
-        return mapper.map(dto, UserEntity.class);
+        //return mapper.map(dto, UserEntity.class);
+        UserEntity user = new UserEntity();
+
+        user = mapper.map(dto, UserEntity.class);
+
+        user.setPhoto(awsService.uploadFileFromBase64(dto.getPhoto()));
+
+        return user;
     }
 
     public UserDetailDTO convert2DetailDTO(UserEntity entity) {

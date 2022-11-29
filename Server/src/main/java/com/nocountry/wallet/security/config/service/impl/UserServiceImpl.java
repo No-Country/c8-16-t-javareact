@@ -1,4 +1,4 @@
-package com.nocountry.wallet.service.impl;
+package com.nocountry.wallet.security.config.service.impl;
 
 import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.auth.JwtUtils;
@@ -10,8 +10,8 @@ import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import com.nocountry.wallet.repository.UserRepository;
-import com.nocountry.wallet.service.IAuthService;
-import com.nocountry.wallet.service.IUserService;
+import com.nocountry.wallet.security.config.service.IAuthService;
+import com.nocountry.wallet.security.config.service.IUserService;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
