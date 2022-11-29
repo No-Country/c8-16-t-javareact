@@ -2,6 +2,7 @@ package com.nocountry.wallet.mapper;
 
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,18 @@ public class UserMapper {
         List<UserDetailDTO> result = new ArrayList<>();
         entities.forEach(entity -> result.add(convert2DetailDTO(entity)));
         return result;
+    }
+
+    public UserEntity userUpdateDTO2Entity(UserUpdateDTO userUpdateDTO) {
+        return mapper.map(userUpdateDTO, UserEntity.class);
+    }
+
+    public UserCreateDTO userEntity2DTO(UserEntity user){
+        UserCreateDTO userDTO = new UserCreateDTO();
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setPassword(user.getPassword());
+        return userDTO;
     }
 
 }

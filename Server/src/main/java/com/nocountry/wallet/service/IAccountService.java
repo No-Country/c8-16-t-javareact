@@ -1,10 +1,8 @@
 package com.nocountry.wallet.service;
 
-import com.nocountry.wallet.models.entity.AccountEntity;
-
-import java.util.List;
+import com.nocountry.wallet.models.request.AccountDTO;
 
 public interface IAccountService {
 
-
+    AccountDTO createAccount(String token, String currency);
 }

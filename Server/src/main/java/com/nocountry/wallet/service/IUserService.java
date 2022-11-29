@@ -3,8 +3,8 @@ package com.nocountry.wallet.service;
 import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
-import com.nocountry.wallet.models.response.UserResponseDTO;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -18,4 +18,6 @@ public interface IUserService{
     UserDetailDTO getUserById(Long userId);
     ResponseEntity<Void> deleteUser(Long id, String token);
     List<UserDetailDTO> getAllUsers();
+
+    UserCreateDTO updateUser(UserUpdateDTO userUpdateDTO, Integer id);
 }

@@ -1,14 +1,13 @@
 package com.nocountry.wallet.controller;
 
+import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
-import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.utils.GetTokenData;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,5 +40,11 @@ public class UserController {
         //Call static method
         Long user_id = GetTokenData.getUserIdFromToken(token);
         return ResponseEntity.ok().body(userService.getUserById(user_id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserCreateDTO> updateUser(@RequestBody UserUpdateDTO user, @PathVariable Integer id){
+        UserCreateDTO userDTO =  userService.updateUser(user,id);
+        return ResponseEntity.ok().body(userDTO);
     }
 }

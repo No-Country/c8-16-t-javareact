@@ -1,16 +1,17 @@
 package com.nocountry.wallet.service.impl;
 
 import com.nocountry.wallet.auth.AuthRequestDTO;
+import com.nocountry.wallet.auth.JwtUtils;
 import com.nocountry.wallet.exception.BadRequestException;
+import com.nocountry.wallet.exception.NotFoundException;
 import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
-import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.IUserService;
-import com.nocountry.wallet.auth.JwtUtils;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,15 +42,30 @@ public class UserServiceImpl implements IUserService {
 
     @Autowired
     IAuthService authService;
-/*
+
+
     @Override
-    public ResponseEntity<Void> deleteUser(Long id) {
-        UserEntity userSelected = userRepository.findById(id).orElseThrow(()-> new BadRequestException(ErrorEnum.OBJECT_NOT_FOUND.getMessage()));
-        userSelected.setSoftDelete(true);
-        userRepository.save(userSelected);
-        return null;
+    public UserCreateDTO updateUser(UserUpdateDTO userUpdateDTO, Integer id) {
+        Optional<UserEntity> result = userRepository.findById(Long.valueOf(id));
+        if(result.isEmpty()) {
+            throw new NotFoundException("Invalid ID");
+        }
+        UserEntity res = result.get();
+        userUpdateDTO.setId(id);
+        UserEntity user = userMapper.userUpdateDTO2Entity(userUpdateDTO);
+
+        String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        user.setEmail(res.getEmail());
+        user.setRoles(res.getRoles());
+        user.setTimestamp(res.getTimestamp());
+
+
+        UserEntity response = userRepository.save(user);
+        return userMapper.userEntity2DTO(response);
     }
-*/
+
 @Override
 public ResponseEntity<Void> deleteUser(Long id, String token) {
     ResponseEntity<Void> response;
