@@ -1,16 +1,13 @@
 package com.nocountry.wallet.controller;
 
-import com.nocountry.wallet.models.request.AccountDTO;
-import com.nocountry.wallet.service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-    @Autowired
+    /*
+    @Autowired(required = true)
     private IAccountService accountService;
 
 
@@ -22,6 +19,6 @@ public class AccountController {
         AccountDTO accountDTO = accountService.createAccount(token, currency);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDTO);
     }
-
+*/
 
 }

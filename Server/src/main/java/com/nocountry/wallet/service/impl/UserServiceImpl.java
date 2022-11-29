@@ -3,12 +3,12 @@ package com.nocountry.wallet.service.impl;
 import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.auth.JwtUtils;
 import com.nocountry.wallet.exception.BadRequestException;
-import com.nocountry.wallet.exception.NotFoundException;
 import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
-import com.nocountry.wallet.models.request.UserUpdateDTO;
+import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
+import com.nocountry.wallet.models.response.UserUpdateResponse;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.IUserService;
@@ -27,6 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +44,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     IAuthService authService;
 
-
+/*
     @Override
     public UserCreateDTO updateUser(UserUpdateDTO userUpdateDTO, Integer id) {
         Optional<UserEntity> result = userRepository.findById(Long.valueOf(id));
@@ -55,17 +56,38 @@ public class UserServiceImpl implements IUserService {
         UserEntity user = userMapper.userUpdateDTO2Entity(userUpdateDTO);
 
         String encodedPassword = this.passwordEncoder.encode(user.getPassword());
+        user.setFirstName(res.getFirstName());
+        user.setLastName(res.getLastName());
+        user.setDni(res.getDni());
         user.setPassword(encodedPassword);
-
-        user.setEmail(res.getEmail());
-        user.setRoles(res.getRoles());
         user.setTimestamp(res.getTimestamp());
 
 
         UserEntity response = userRepository.save(user);
         return userMapper.userEntity2DTO(response);
     }
+*/
 
+    @Override
+    public ResponseEntity<UserUpdateResponse> update(Long id, UserUpdateRequest userUpdateRequest, String token) throws IOException {
+        ResponseEntity<UserUpdateResponse> response;
+        if (authService.roleValidator(id, token)){
+            UserEntity entity = userRepository.findById(id).orElseThrow();
+            if (validInput(userUpdateRequest.getFirstName())) entity.setFirstName(userUpdateRequest.getFirstName());
+            if (validInput(userUpdateRequest.getLastName())) entity.setLastName(userUpdateRequest.getLastName());
+            if(validInput(userUpdateRequest.getDni())) entity.setDni(userUpdateRequest.getDni());
+            if (validInput(userUpdateRequest.getPassword())) entity.setPassword(userUpdateRequest.getPassword());
+            if (validInput(userUpdateRequest.getPhoto())) entity.setPhoto(userUpdateRequest.getPhoto());
+            response = ResponseEntity.status(HttpStatus.OK).body(userMapper.userEntity2UserUpdateResponse(userRepository.save(entity)));
+        } else {
+            response = ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        return response;
+    }
+
+    public boolean validInput(String input){
+        return (input != null && !input.isEmpty() && !input.isBlank());
+    }
 @Override
 public ResponseEntity<Void> deleteUser(Long id, String token) {
     ResponseEntity<Void> response;

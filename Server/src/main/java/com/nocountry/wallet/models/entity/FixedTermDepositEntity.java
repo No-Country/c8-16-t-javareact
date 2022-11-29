@@ -27,7 +27,7 @@ public class FixedTermDepositEntity {
 
 
     @ManyToOne
-    @JoinColumn(name = "ACCOUNT_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "ACCOUNT_EID", insertable = false, updatable = false)
     private AccountEntity accountEntity;
 
     @Column(name = "ACCOUNT_ID", nullable = false)
