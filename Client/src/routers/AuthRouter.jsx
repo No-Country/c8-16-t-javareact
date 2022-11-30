@@ -9,7 +9,7 @@ const AuthRouter = () => {
       <Routes>
         <Route path="/login" element={<LogIn />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/verify" element={<VerifyPage />} />
+
         {/* <Route path='/reset' element={<ResetPassword />} /> */}
       </Routes>
     </>

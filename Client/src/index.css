@@ -2,9 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 .inputForm {
-    @apply border-2 rounded-[20px] h-[40px] mx-auto px-[17px] placeholder:text-[16px] border-lightGreen placeholder:text-lightGreen placeholder:text-center
+  @apply border-2 rounded-[20px] h-[40px] mx-auto px-[17px] placeholder:text-[16px] border-lightGreen placeholder:text-lightGreen placeholder:text-center;
 }
 
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
