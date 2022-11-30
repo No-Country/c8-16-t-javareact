@@ -1,4 +1,4 @@
-package com.nocountry.wallet.service;
+package com.nocountry.wallet.security.config.service;
 
 import com.nocountry.wallet.models.request.TransCreateDTO;
 import com.nocountry.wallet.models.request.TransPageDTO;

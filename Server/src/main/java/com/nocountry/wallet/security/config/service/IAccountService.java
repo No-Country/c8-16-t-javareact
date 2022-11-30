@@ -1,4 +1,4 @@
-package com.nocountry.wallet.service;
+package com.nocountry.wallet.security.config.service;
 
 public interface IAccountService {
 

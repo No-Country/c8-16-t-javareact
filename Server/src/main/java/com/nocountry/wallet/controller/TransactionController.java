@@ -4,7 +4,7 @@ package com.nocountry.wallet.controller;
 import com.nocountry.wallet.models.request.TransCreateDTO;
 import com.nocountry.wallet.models.request.TransPageDTO;
 import com.nocountry.wallet.models.request.TransUpdateDTO;
-import com.nocountry.wallet.service.ITransactionService;
+import com.nocountry.wallet.security.config.service.ITransactionService;
 import com.nocountry.wallet.utils.GetTokenData;
 import com.nocountry.wallet.utils.enumeration.TypeTransaction;
 import lombok.RequiredArgsConstructor;

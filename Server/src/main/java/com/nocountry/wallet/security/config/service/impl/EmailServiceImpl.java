@@ -1,8 +1,8 @@
-package com.nocountry.wallet.service.impl;
+package com.nocountry.wallet.security.config.service.impl;
 
 
 import com.nocountry.wallet.exception.GenericException;
-import com.nocountry.wallet.service.EmailService;
+import com.nocountry.wallet.security.config.service.EmailService;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
