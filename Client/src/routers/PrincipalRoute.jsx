@@ -6,8 +6,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Welcome from "../pages/Welcome";
 
 const PrincipalRoute = () => {
-  const isLogged = true;
-  const isVerified = true;
+  const isLogged = false;
+  const isVerified = false;
 
   return (
     <Routes>
