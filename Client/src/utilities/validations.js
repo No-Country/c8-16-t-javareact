@@ -1,7 +1,7 @@
 export const validations = (values) => {
 
     const emailRegEx =  /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
-    const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
+    const passwordRegEx = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[,;$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/;
 
     let errors = {};
 
@@ -9,7 +9,7 @@ export const validations = (values) => {
         errors.name = "Ingrese un nombre"
     }
 
-    if (!values.lastName) {
+    if (!values.lastname) {
         errors.lastname = "Ingrese un Apellido"
     }
 
@@ -28,8 +28,12 @@ export const validations = (values) => {
         errors.password = "Ingrese una contraseña"
     }
 
-    if(values.password != values.confirmPassword) {
-        errors.confirmPassword = "Las contraseñas no coinciden"
+    if(!values.confirmpassword){
+        errors.confirmpassword = 'Campo obligatorio'
+    }
+    
+    if (values.password != values.confirmpassword){
+        errors.confirmpassword = "Las contraseñas no coinciden"
     }
 
     return errors;

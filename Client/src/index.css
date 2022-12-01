@@ -7,4 +7,7 @@
 .inputForm {
     @apply border-2 rounded-[20px] h-[40px] mx-auto px-[17px] placeholder:text-[16px] border-lightGreen placeholder:text-lightGreen placeholder:text-center
 }
+.errors{
+    @apply ml-4 text-red-600
+}
 
