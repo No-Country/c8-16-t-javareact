@@ -1,11 +1,12 @@
 import { Route, Routes } from "react-router-dom";
+import Onboarding from "../pages/Onboarding";
 import VerifyPage from "../pages/VerifyPage";
 
 const AplicationRouter = () => {
   return (
     <>
       <Routes>
-        <Route path="/home" element={"Home"} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/profile" element={"Profile"} />
         <Route path="/verificateemail" element={<VerifyPage />} />
         {/* <Route path='/not_found' element={'Not Found'}/>
