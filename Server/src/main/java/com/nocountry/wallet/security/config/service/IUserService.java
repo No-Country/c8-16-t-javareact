@@ -5,6 +5,7 @@ import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
+import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import org.springframework.http.ResponseEntity;
 
@@ -22,6 +23,8 @@ public interface IUserService{
     List<UserDetailDTO> getAllUsers();
 
     ResponseEntity<UserUpdateResponse> update(Long id, UserUpdateRequest userUpdateRequest, String token) throws IOException;
+
+    UserPaginatedResponse findAllPaginated(Integer numberOfPage, Integer quantityOfResults);
   /*
     UserCreateDTO updateUser(UserUpdateDTO userUpdateDTO, Integer id);
 
