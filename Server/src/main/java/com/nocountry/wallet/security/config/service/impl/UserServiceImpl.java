@@ -8,10 +8,12 @@ import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
+import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.security.config.service.IAuthService;
 import com.nocountry.wallet.security.config.service.IUserService;
+import com.nocountry.wallet.utils.PaginationUtils;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -153,5 +155,12 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         log.info("Generate Token for {}", authRequest.getEmail());
         final String jwt = jwtUtils.generateToken(userDetails);
         return jwt;
+    }
+
+    @Override
+    public UserPaginatedResponse findAllPaginated(Integer numberOfPage, Integer quantityOfResults) {
+        PaginationUtils pagination = new PaginationUtils(userRepository, numberOfPage, quantityOfResults, "/user/paginated?page=%d");
+        UserPaginatedResponse userPaginatedResponse = userMapper.paginationUtils2UserPaginationResponse(pagination);
+        return userPaginatedResponse;
     }
 }
