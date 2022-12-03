@@ -11,7 +11,6 @@ import com.nocountry.wallet.service.AwsService;
 import com.nocountry.wallet.utils.PaginationUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
