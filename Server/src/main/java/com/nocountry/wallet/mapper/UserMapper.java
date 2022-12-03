@@ -4,12 +4,15 @@ import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateDTO;
 import com.nocountry.wallet.models.response.UserDetailDTO;
+import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
-import com.nocountry.wallet.security.config.service.AwsService;
+import com.nocountry.wallet.service.AwsService;
+import com.nocountry.wallet.utils.PaginationUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +26,28 @@ public class UserMapper {
     @Autowired
     AwsService awsService;
 
+
+    public UserPaginatedResponse paginationUtils2UserPaginationResponse(PaginationUtils pagination) {
+
+        Page page = pagination.getPage();
+        List<UserEntity> userEntityList =  page.getContent();
+        List<UserResponseDTO> userResponseList = userEntityList2UserResponseList(userEntityList);
+
+        UserPaginatedResponse userPaginatedResponse = new UserPaginatedResponse();
+        userPaginatedResponse.setUserPageContent(userResponseList);
+        userPaginatedResponse.setPreviousPage(pagination.getPrevious());
+        userPaginatedResponse.setNextPage(pagination.getNext());
+        return userPaginatedResponse;
+    }
+
+    public List<UserResponseDTO> userEntityList2UserResponseList(List<UserEntity> userEntityList) {
+        List<UserResponseDTO> mapperResponse = new ArrayList<>();
+        for (UserEntity ent: userEntityList) {
+            UserResponseDTO res = convert2DTO(ent);
+            mapperResponse.add(res);
+        }
+        return mapperResponse;
+    }
 
     public UserResponseDTO convert2DTO(UserEntity dto) {
         return mapper.map(dto, UserResponseDTO.class);

@@ -12,4 +12,5 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Integer>
     @Query("select a from AccountEntity a where a.user.id = ?1")
     List<AccountEntity> findAccountsByUserId(Long id);
 
+    AccountEntity findByCurrencyAndUserId(Enum currency, Integer id);
 }

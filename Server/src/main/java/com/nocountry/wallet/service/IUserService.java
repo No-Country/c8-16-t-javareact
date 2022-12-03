@@ -1,4 +1,4 @@
-package com.nocountry.wallet.security.config.service;
+package com.nocountry.wallet.service;
 
 import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.models.entity.UserEntity;

@@ -3,7 +3,7 @@ package com.nocountry.wallet.controller;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
-import com.nocountry.wallet.security.config.service.IUserService;
+import com.nocountry.wallet.service.IUserService;
 import com.nocountry.wallet.utils.GetTokenData;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,7 @@ import java.util.List;
 public class UserController {
     @Autowired
     private IUserService userService;
+
     @GetMapping("/detail/{id}") //Only ADMIN access
     public ResponseEntity<UserDetailDTO> getUserById(@PathVariable Long id){
 
