@@ -18,13 +18,12 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component@AllArgsConstructor
+@Component @AllArgsConstructor
 public class UserMapper {
 
     private final ModelMapper mapper;
 
-    @Autowired
-    AwsService awsService;
+    private final AwsService awsService;
 
 
     public UserPaginatedResponse paginationUtils2UserPaginationResponse(PaginationUtils pagination) {
