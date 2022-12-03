@@ -7,7 +7,7 @@ import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
-import com.nocountry.wallet.security.config.service.AwsService;
+import com.nocountry.wallet.service.AwsService;
 import com.nocountry.wallet.utils.PaginationUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;

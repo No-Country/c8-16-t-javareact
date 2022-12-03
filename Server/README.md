@@ -44,3 +44,10 @@ mvn spring-boot:run
 * RestExceptionHandler and ApiErrorDTO that responses a JSON with error message.
 * ErrorEnum for handling messages return in response, and not hardcode.
 * Add Logger dependency, for easy debugging process if you need.
+
+spring_profiles_active=prod
+PROD_DB_HOST=containers-us-west-131.railway.app
+PROD_DB_PORT=7663
+PROD_DB_NAME=railway
+PROD_DB_PASS=KPzqwB5Kcbk1ERVpsotl
+PROD_DB_USERNAME=root
