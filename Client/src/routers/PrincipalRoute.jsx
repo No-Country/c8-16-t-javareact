@@ -2,12 +2,20 @@ import AplicationRouter from "./AplicationRouter";
 import PrivateRoutes from "./PrivateRoutes";
 import AuthRouter from "./AuthRouter";
 import PublicRoutes from "./PublicRoutes";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Welcome from "../pages/Welcome";
+import { useEffect } from "react";
 
 const PrincipalRoute = () => {
-  const isLogged = false;
-  const isVerified = false;
+  const isLogged = true;
+  const isVerified = true;
+  const navigate = useNavigate();
+ 
+  useEffect(() => {
+    if (isLogged && !isVerified) {
+      navigate("/app/verify-email");
+    }
+  }, []);
 
   return (
     <Routes>
@@ -16,7 +24,7 @@ const PrincipalRoute = () => {
       <Route
         path="/auth/*"
         element={
-          <PublicRoutes isLogged={isLogged}>
+          <PublicRoutes isLogged={isLogged} isVerified={isVerified}>
             <AuthRouter />
           </PublicRoutes>
         }
