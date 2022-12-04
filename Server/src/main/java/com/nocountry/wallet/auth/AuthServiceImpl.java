@@ -10,7 +10,10 @@ import com.nocountry.wallet.repository.RoleRepository;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.security.config.PasswordEncoder;
 import com.nocountry.wallet.service.EmailService;
+import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.service.IAuthService;
+import com.nocountry.wallet.service.impl.AccountServiceImpl;
+import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,6 @@ import java.util.Set;
 public class AuthServiceImpl implements IAuthService {
 
     private final UserRepository userRepository;
-//    private final IAccountService iAccountService;
     private final UserDetailsCustomService userCustomService;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
@@ -37,6 +39,8 @@ public class AuthServiceImpl implements IAuthService {
 
     @Autowired
     EmailService emailService;
+
+    private final IAccountService accountService;
 
     @Override
     public UserResponseDTO saveUser(UserCreateDTO dto){
@@ -49,8 +53,10 @@ public class AuthServiceImpl implements IAuthService {
             Collection<RoleEntity> userRole = roleRepository.findByName("ROLE_USER");
             entity.setRoles((Set<RoleEntity>) userRole);
             UserEntity entitySaved = userRepository.save(entity);
-            //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.ARS));
-            //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.USD));
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.ARS.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.USDT.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.BTC.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.ETH.name());
             if (!entitySaved.getEmail().contains("test"))
                 emailService.sendRegisterMail(entitySaved.getEmail());
             UserResponseDTO responseDto = userMapper.convert2DTO(entitySaved);

@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 
@@ -52,9 +53,8 @@ import java.util.Set;
         @Column(name = "soft_delete", nullable = false)
         private Boolean softDelete = Boolean.FALSE;
 
-        /*
-        * Esperando para hacer relacion con account
-        * */
+        @OneToMany(mappedBy = "user")
+        private List<AccountEntity> accounts;
         @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
         @JoinTable(name = "user_role",
                 joinColumns = {@JoinColumn(name = "id_user")},
@@ -63,7 +63,7 @@ import java.util.Set;
 
 
         public UserEntity(String firstName, String lastName, String email, String dni, String password, String photo,
-                          Timestamp timestamp, Set<RoleEntity> roleEntity) {
+                          Timestamp timestamp, Set<RoleEntity> roleEntity, List<AccountEntity> accounts) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
@@ -72,6 +72,7 @@ import java.util.Set;
             this.photo = photo;
             this.timestamp = timestamp;
             this.roles = roleEntity;
+            this.accounts = accounts;
         }
     }
 

@@ -1,12 +1,11 @@
-package com.nocountry.wallet.models.request;
+package com.nocountry.wallet.models.response;
 
-import com.nocountry.wallet.models.response.UserDetailDTO;
 import lombok.Data;
 
 import java.time.Instant;
 
 @Data
-public class AccountDTO {
+public class AccountWithoutUserDTO {
 
     private Integer id;
     private String currency;
@@ -14,6 +13,4 @@ public class AccountDTO {
     private Double balance;
     private Instant updateDate;
     private Instant creationDate;
-    private UserDetailDTO user;
-    private boolean softDelete = Boolean.FALSE;
 }
