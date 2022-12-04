@@ -3,9 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from '../components/Layout';
 import Container from "../components/Container";
+import useUserStore from './../zustand/useUserStore';
 
 
 const SignIn = () => {
+  const { signin } = useUserStore((state) => state)
   const [touched, setTouched] = useState("");
 
   const handleBlur = (string) => {
@@ -40,8 +42,7 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("datos enviados");
-    console.log(values);
+    signin();
   };
 
   return (

@@ -1,7 +1,9 @@
 import Container from "../components/Container";
 import Loyout from "../components/Layout";
+import useUserStore from './../zustand/useUserStore';
 
 const VerifyEmail = () => {
+  const { verifyEmail } = useUserStore((state) => state)
   return (
     <Loyout>
       <Container>
@@ -44,13 +46,14 @@ const VerifyEmail = () => {
               name="six"
             />
           </div>
-          <a href="https://mail.google.com/mail" target='_blank'>
+          {/* <a href="https://mail.google.com/mail" target='_blank'> */}
             <button
               className="w-full h-[40px] mt-[50px] mb-[50px] bg-lightGreen text-white font-semibold rounded-[20px]  shadow-lg"
+              onClick={() => verifyEmail()}
             >
-              Abrir mail
+              Verificar 
             </button>
-          </a>
+          {/* </a> */}
         </div>
       </Container>
     </Loyout>
