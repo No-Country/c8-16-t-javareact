@@ -26,6 +26,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserById(id));
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id, @RequestHeader(name = "Authorization") String token){
         return userService.deleteUser(id, token);
@@ -39,7 +40,7 @@ public class UserController {
     public ResponseEntity<UserDetailDTO> getUserDetail(@RequestHeader(name= "Authorization") String bearerToken)
         throws ParseException {
         //Extract token
-        String token = bearerToken.substring("Bearer ".length());
+        String token = bearerToken.substring("Bearer ".length());//consultar el espacio
         //Call static method
         Long user_id = GetTokenData.getUserIdFromToken(token);
         return ResponseEntity.ok().body(userService.getUserById(user_id));
