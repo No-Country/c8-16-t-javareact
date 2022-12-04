@@ -7,8 +7,8 @@ import Welcome from "../pages/Welcome";
 import { useEffect } from "react";
 
 const PrincipalRoute = () => {
-  const isLogged = true;
-  const isVerified = true;
+  const isLogged = false;
+  const isVerified = false;
   const navigate = useNavigate();
  
   useEffect(() => {
