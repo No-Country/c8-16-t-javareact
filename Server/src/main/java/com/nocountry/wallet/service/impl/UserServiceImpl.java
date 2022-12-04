@@ -121,7 +121,7 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         if(userOptional.isEmpty())
             throw new BadRequestException(ErrorEnum.OBJECT_NOT_FOUND.getMessage());
 
-        return userMapper.convert2DetailDTO(userOptional.get());
+        return userMapper.convert2DetailDTO(userOptional.get(), true);
     }
     @Override
     public boolean save(UserCreateDTO userDTO){

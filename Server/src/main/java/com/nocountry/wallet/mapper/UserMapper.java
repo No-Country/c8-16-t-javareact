@@ -1,12 +1,10 @@
 package com.nocountry.wallet.mapper;
 
 import com.nocountry.wallet.models.entity.UserEntity;
+import com.nocountry.wallet.models.request.AccountDTO;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateDTO;
-import com.nocountry.wallet.models.response.UserDetailDTO;
-import com.nocountry.wallet.models.response.UserPaginatedResponse;
-import com.nocountry.wallet.models.response.UserResponseDTO;
-import com.nocountry.wallet.models.response.UserUpdateResponse;
+import com.nocountry.wallet.models.response.*;
 import com.nocountry.wallet.service.AwsService;
 import com.nocountry.wallet.utils.PaginationUtils;
 import lombok.AllArgsConstructor;
@@ -21,6 +19,7 @@ import java.util.List;
 public class UserMapper {
 
     private final ModelMapper mapper;
+    private final AccountMapper accountMapper;
 
     private final AwsService awsService;
 
@@ -62,13 +61,19 @@ public class UserMapper {
         return user;
     }
 
-    public UserDetailDTO convert2DetailDTO(UserEntity entity) {
-        return mapper.map(entity, UserDetailDTO.class);
+    public UserDetailDTO convert2DetailDTO(UserEntity entity, boolean loadAccounts) {
+        UserDetailDTO dto = mapper.map(entity, UserDetailDTO.class);
+
+        if (loadAccounts){
+            List<AccountWithoutUserDTO> accDTOs = accountMapper.convert2ListWithoutUserDTO(entity.getAccounts());
+            dto.setAccounts(accDTOs);
+        }
+        return dto;
     }
 
     public List<UserDetailDTO> convertEntities2ListDTO(List<UserEntity> entities) {
         List<UserDetailDTO> result = new ArrayList<>();
-        entities.forEach(entity -> result.add(convert2DetailDTO(entity)));
+        entities.forEach(entity -> result.add(convert2DetailDTO(entity, false)));
         return result;
     }
 

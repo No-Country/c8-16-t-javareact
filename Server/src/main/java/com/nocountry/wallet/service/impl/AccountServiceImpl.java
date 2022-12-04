@@ -16,7 +16,9 @@ import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.utils.GetTokenData;
 import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
+import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import com.nocountry.wallet.utils.enumeration.ErrorList;
+import org.hibernate.type.CurrencyType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -62,16 +64,16 @@ public class AccountServiceImpl implements IAccountService {
             accountEntity.setCurrency(CurrencyEnum.valueOf(currency));
             accountEntity.setCreationDate(Instant.now());
             accountEntity.setBalance(0.0);
-            if (currency.equals("USD"))
+            if (!currency.equals("ARS"))
                 accountEntity.setTransactionLimit(1000.0);
             else
                 accountEntity.setTransactionLimit(300000.0);
 
             accountEntity.setUpdateDate(Instant.now());
-            accountEntity.setUser(userRepository.findById((long) userId).get());
+            accountEntity.setUserId((long) userId);
             accountRepository.save(accountEntity);
 
-            return accountMapper.convertToAccountDTO(accountEntity);
+            return accountMapper.convertToAccountDTO(accountEntity, false);
 
         } else {
             return  null;
@@ -85,7 +87,7 @@ public class AccountServiceImpl implements IAccountService {
 
         List<AccountEntity> result = this.accountRepository.findAccountsByUserId(Long.valueOf(id));
 
-        return accountMapper.accountEntityList2DTOList(result);
+        return accountMapper.accountEntityList2DTOList(result, false);
     }
 
 
@@ -106,6 +108,17 @@ public class AccountServiceImpl implements IAccountService {
             }
         };
         return accountsMap;
+    }
+
+    @Override
+    public AccountEntity findByUserByCurrency(Long id, CurrencyEnum currency) {
+
+        Optional<AccountEntity> optAcc = accountRepository.findByUserByCurrency(id,currency);
+        if(!optAcc.isPresent()){
+            throw new NotFoundException(ErrorEnum.OBJECT_NOT_FOUND.getMessage());
+        }
+
+        return optAcc.get();
     }
 
 
@@ -136,7 +149,7 @@ public class AccountServiceImpl implements IAccountService {
             accountEntity.setUser(userRepository.findById(authUser.orElseThrow().getId()).get());
             accountRepository.save(accountEntity);
 
-            return accountMapper.convertToAccountDTO(accountEntity);
+            return accountMapper.convertToAccountDTO(accountEntity, false);
 
         } else {
             throw new TransactionException(ErrorList.ACCOUNT_UNIQUE.getMessage());
