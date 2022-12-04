@@ -1,4 +1,4 @@
-package com.nocountry.wallet.models.request;
+package com.nocountry.wallet.models.response;
 
 import com.nocountry.wallet.utils.enumeration.TypeTransaction;
 import lombok.Data;
