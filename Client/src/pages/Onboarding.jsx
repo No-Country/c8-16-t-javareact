@@ -7,6 +7,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from 'react-router-dom';
 
+
+
 const Onboarding = () => {
     const [pagination, setPagination] = useState(0);
     const navigate = useNavigate()
