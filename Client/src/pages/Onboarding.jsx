@@ -6,6 +6,8 @@ import Container from "../components/Container";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
+
+
 const Onboarding = () => {
     const [pagination, setPagination] = useState(0);
 
