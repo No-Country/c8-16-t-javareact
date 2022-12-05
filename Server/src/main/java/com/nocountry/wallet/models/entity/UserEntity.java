@@ -37,6 +37,8 @@ import java.util.Set;
         @Column(unique = true, nullable = false, name = "email")
         private String email;
 
+        //Verify correo que le mande digitos. Una ruta para el correo. Generacion de los 6 digitos.
+
         @Column(unique = true, nullable = false, name = "dni")
         private String dni;
 
@@ -45,7 +47,8 @@ import java.util.Set;
 
         @Column(name = "photo")
         private String photo;
-
+        // un string vacio cuando no se carga.
+        // Cargar la imagen directamente. Form data
         @Column(name = "timestamp", nullable = false)
         @CreationTimestamp
         private Timestamp timestamp;
