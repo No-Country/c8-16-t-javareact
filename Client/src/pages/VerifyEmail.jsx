@@ -1,9 +1,15 @@
 import Container from "../components/Container";
 import Loyout from "../components/Layout";
 import useUserStore from './../zustand/useUserStore';
+// import firebase from '../../firebase'
 
 const VerifyEmail = () => {
   const { verifyEmail } = useUserStore((state) => state)
+  
+  const handleClick = () => {
+    let email = 'quispealaya73@gmail.com';
+  }
+
   return (
     <Loyout>
       <Container>

@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import Layout from '../components/Layout';
 import Container from "../components/Container";
 import useUserStore from './../zustand/useUserStore';
+import { createUserWithEmailAndPassword, getAuth, sendSignInLinkToEmail } from "firebase/auth";
+import { auth } from '../firebas/index';
 
 
 const SignIn = () => {
@@ -40,9 +42,44 @@ const SignIn = () => {
     );
   };
 
-  const handleSubmit = (e) => {
+  const actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be in the authorized domains list in the Firebase Console.
+    url: 'http://127.0.0.1:5173/app/dashboard',
+    // This must be true.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.example.ios'
+    },
+    android: {
+      packageName: 'com.example.android',
+      installApp: true,
+      minimumVersion: '12'
+    },
+    dynamicLinkDomain: 'example.page.link'
+  };
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
     signin();
+    // const auth = getAuth();
+    const email = 'quispealaya73@gmail.com'
+    const password = '123456'
+    // await createUserWithEmailAndPassword(auth, email, password)
+    sendSignInLinkToEmail(auth, email, actionCodeSettings)
+      .then(() => {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ...
+      });
+    console.log(auth)
   };
 
   return (

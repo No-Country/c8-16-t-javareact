@@ -5,9 +5,11 @@ import Layout from './../components/Layout';
 import Container from "../components/Container";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useNavigate } from 'react-router-dom';
 
 const Onboarding = () => {
     const [pagination, setPagination] = useState(0);
+    const navigate = useNavigate()
 
     const responsive = {
         desktop: {
@@ -51,11 +53,7 @@ const Onboarding = () => {
    
    
    const  handledClick = () => {
-      if (estado <= 1 ) {
-        setEstado(estado + 1) 
-      } else {
-        alert("alert")
-      }
+    navigate('/app/dashboard')
    }
    const CustomDot = ({
     index,
