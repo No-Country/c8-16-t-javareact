@@ -3,6 +3,7 @@ package com.nocountry.wallet.service.impl;
 
 import com.nocountry.wallet.exception.GenericException;
 import com.nocountry.wallet.service.EmailService;
+import com.nocountry.wallet.utils.otpUtils;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -34,6 +35,9 @@ public class EmailServiceImpl implements EmailService {
     @Value("${no-country.email.enabled}")
     private boolean enabledMailService;
 
+    @Autowired
+    otpUtils otpUtils;
+
 
     public void sendRegisterMail(String email){
         filterEmail(email, templateRegisterId);
@@ -58,10 +62,10 @@ public class EmailServiceImpl implements EmailService {
     private void setEmail(String emailTo, String templateId){
         Email fromEmail = new Email(organizationId);
         Email toEmail = new Email(emailTo);
-        Content content = new Content("text/html", "xxx");
-        String subject = "xxx";
+        Content content = new Content("text/html", "El codigo de verificacion es: "+otpUtils.otpStarter());
+        String subject = otpUtils.otpStarter();
         Mail mail = new Mail(fromEmail, subject, toEmail, content);
-        mail.setTemplateId(templateId);
+        //mail.setTemplateId(templateId);
         SendGrid sg = new SendGrid(sendGridKey);
         Request request = new Request();
         sendEmail(mail, sg, request);
