@@ -7,7 +7,7 @@ public enum ErrorEnum {
 
     TRANSACTION_LIMIT("You have exceeded the transaction limit"),
     REQUEST_FAILED("The request was not completed"),
-    INSUFFICIENT_BALANCE("You need more balance for this payment"),
+    INSUFFICIENT_BALANCE("You need more balance for this payment/send money"),
     OBJECT_NOT_FOUND("The requested object was not found"),
     USER_ALREADY_EXIST("User already exist in Database"),
     EMPTY_PASS("The password is empty"),

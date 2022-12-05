@@ -15,6 +15,8 @@
 	<description>Project for No Country - Group C8-16</description>
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -84,11 +86,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.nocountry</groupId>
-			<artifactId>wallet</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-core</artifactId>
 			<version>1.12.347</version>
@@ -97,11 +94,6 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.347</version>
-		</dependency>
-		<dependency>
-			<groupId>com.sendgrid</groupId>
-			<artifactId>sendgrid-java</artifactId>
-			<version>4.9.3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sendgrid</groupId>

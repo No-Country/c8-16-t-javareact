@@ -14,6 +14,7 @@ public class UserCreateDTO {
     private String lastName;
     @Email(message = "Username must be an email")
     private String email;
+    private String photo;
     @Max(value= 10)
     private String dni;
     @Size(min=8)
