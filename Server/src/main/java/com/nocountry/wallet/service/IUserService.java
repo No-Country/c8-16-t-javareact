@@ -6,6 +6,7 @@ import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserPaginatedResponse;
+import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import org.springframework.http.ResponseEntity;
 
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 public interface IUserService{
     boolean save(UserCreateDTO userDTO);
-    String userAuth(AuthRequestDTO authRequest);
+    UserResponseDTO userAuth(AuthRequestDTO authRequest);
 
     Optional<UserEntity> findById(Long id);
     UserDetailDTO getUserById(Long userId);

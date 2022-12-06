@@ -31,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDTO> login( @RequestBody AuthRequestDTO authRequest)throws BadRequestException {
-        String jwt = userService.userAuth(authRequest);
-        return ResponseEntity.ok(new AuthResponseDTO(authRequest.getEmail(),jwt));
+    public ResponseEntity<UserResponseDTO> login( @RequestBody AuthRequestDTO authRequest)throws BadRequestException {
+
+        return ResponseEntity.ok(userService.userAuth(authRequest));
     }
 }
