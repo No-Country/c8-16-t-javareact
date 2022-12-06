@@ -39,12 +39,18 @@ public class EmailServiceImpl implements EmailService {
     otpUtils otpUtils;
 
 
-    public void sendRegisterMail(String email){
+    public void sendRegisterMail(String email) {
         filterEmail(email, templateRegisterId);
     }
 
-    public void sendContactMail(String email){
+    public void sendContactMail(String email) {
         filterEmail(email, templateContactId);
+    }
+
+    private String otpCode;
+
+    public String getOtpCode(){
+        return otpCode;
     }
 
     private void filterEmail(String emailTo, String templateId) {
@@ -62,7 +68,8 @@ public class EmailServiceImpl implements EmailService {
     private void setEmail(String emailTo, String templateId){
         Email fromEmail = new Email(organizationId);
         Email toEmail = new Email(emailTo);
-        Content content = new Content("text/html", "El codigo de verificacion es: "+otpUtils.otpStarter());
+        otpCode = otpUtils.otpStarter();
+        Content content = new Content("text/html", "El codigo de verificacion es: "+ getOtpCode());
         String subject = otpUtils.otpStarter();
         Mail mail = new Mail(fromEmail, subject, toEmail, content);
         //mail.setTemplateId(templateId);
