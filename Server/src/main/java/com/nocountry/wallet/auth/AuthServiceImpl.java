@@ -108,4 +108,5 @@ public class AuthServiceImpl implements IAuthService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the searched user does not exist"));
         return userEntity;
     }
+
 }

@@ -9,6 +9,7 @@ import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserPaginatedResponse;
+import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAuthService;
@@ -140,7 +141,7 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         return false;
     }
     @Override
-    public String userAuth(AuthRequestDTO authRequest){
+    public UserResponseDTO userAuth(AuthRequestDTO authRequest){
         UserDetails userDetails;
         log.info("Try authenticate");
         try {
@@ -154,7 +155,11 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         }
         log.info("Generate Token for {}", authRequest.getEmail());
         final String jwt = jwtUtils.generateToken(userDetails);
-        return jwt;
+
+        UserEntity entity = userRepository.findByEmail(authRequest.getEmail()).get();
+        UserResponseDTO dto = userMapper.convert2DTO(entity);
+        dto.setJwt(jwt);
+        return dto;
     }
 
     @Override
