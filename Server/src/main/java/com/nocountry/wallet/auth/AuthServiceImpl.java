@@ -5,6 +5,7 @@ import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.RoleEntity;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.response.UserRegisterDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.RoleRepository;
 import com.nocountry.wallet.repository.UserRepository;
@@ -13,8 +14,10 @@ import com.nocountry.wallet.service.EmailService;
 import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.impl.AccountServiceImpl;
+import com.nocountry.wallet.service.impl.EmailServiceImpl;
 import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
+import com.nocountry.wallet.utils.otpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -43,12 +48,14 @@ public class AuthServiceImpl implements IAuthService {
     private final IAccountService accountService;
 
     @Override
-    public UserResponseDTO saveUser(UserCreateDTO dto){
+    public UserRegisterDTO saveUser(UserCreateDTO dto){
         Optional<UserEntity> user = userRepository.findByEmail(dto.getEmail());
         if (!user.isPresent()) {
             if(dto.getPassword().isEmpty())
                 throw new BadRequestException(ErrorEnum.EMPTY_PASS.getMessage());
+
             UserEntity entity = userMapper.convert2Entity(dto);
+            entity.setBirthDate(LocalDate.parse(dto.getBirthDate(), DateTimeFormatter.ofPattern("d/MM/yyyy")));
             entity.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(dto.getPassword()));
             Collection<RoleEntity> userRole = roleRepository.findByName("ROLE_USER");
             entity.setRoles((Set<RoleEntity>) userRole);
@@ -59,10 +66,11 @@ public class AuthServiceImpl implements IAuthService {
             accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.ETH.name());
             if (!entitySaved.getEmail().contains("test"))
                 emailService.sendRegisterMail(entitySaved.getEmail());
-            UserResponseDTO responseDto = userMapper.convert2DTO(entitySaved);
+            UserRegisterDTO responseDto = userMapper.convert2RegDTO(entitySaved);
             AuthRequestDTO authDTO = new AuthRequestDTO(dto.getEmail(), dto.getPassword());
             AuthResponseDTO login = login(authDTO);
             responseDto.setJwt(login.getJwt());
+            responseDto.setOtp(emailService.getOtpCode());
             return responseDto;
         }else {
             throw new BadRequestException(ErrorEnum.USER_ALREADY_EXIST.getMessage());

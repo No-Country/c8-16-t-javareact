@@ -4,9 +4,11 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -49,12 +51,18 @@ import java.util.Set;
         private String photo;
         // un string vacio cuando no se carga.
         // Cargar la imagen directamente. Form data
-        @Column(name = "timestamp", nullable = false)
+        @Column(name = "creation_date", nullable = false)
         @CreationTimestamp
-        private Timestamp timestamp;
+        private Timestamp creationDate;
 
         @Column(name = "soft_delete", nullable = false)
         private Boolean softDelete = Boolean.FALSE;
+
+        @Column(name= "birth_date", nullable = false)
+        @DateTimeFormat(pattern = "dd-MM-yyyy")
+        private LocalDate birthDate;
+        @Column(name = "verify")
+        private Boolean verify = Boolean.FALSE;
 
         @OneToMany(mappedBy = "user")
         private List<AccountEntity> accounts;
@@ -66,15 +74,16 @@ import java.util.Set;
 
 
         public UserEntity(String firstName, String lastName, String email, String dni, String password, String photo,
-                          Timestamp timestamp, Set<RoleEntity> roleEntity, List<AccountEntity> accounts) {
+                          Timestamp creationDate, Set<RoleEntity> roleEntity, List<AccountEntity> accounts, LocalDate birthDate) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
             this.dni = dni;
             this.password = password;
             this.photo = photo;
-            this.timestamp = timestamp;
+            this.creationDate = creationDate;
             this.roles = roleEntity;
+            this.birthDate=  birthDate;
             this.accounts = accounts;
         }
     }
