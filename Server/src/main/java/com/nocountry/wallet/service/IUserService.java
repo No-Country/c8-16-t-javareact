@@ -4,9 +4,11 @@ import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
+import com.nocountry.wallet.models.request.UserVerifyRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
+import com.nocountry.wallet.models.response.UserVerifyResponse;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
@@ -19,6 +21,9 @@ public interface IUserService{
 
     Optional<UserEntity> findById(Long id);
     UserDetailDTO getUserById(Long userId);
+
+    ResponseEntity<UserVerifyResponse> verify(Long id, UserVerifyRequest userVerifyRequest, String token) throws IOException;
+
     ResponseEntity<Void> deleteUser(Long id, String token);
     List<UserDetailDTO> getAllUsers();
 

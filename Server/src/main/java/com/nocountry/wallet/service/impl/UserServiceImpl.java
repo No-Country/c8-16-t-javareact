@@ -7,9 +7,11 @@ import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
+import com.nocountry.wallet.models.request.UserVerifyRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
 import com.nocountry.wallet.models.response.UserPaginatedResponse;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
+import com.nocountry.wallet.models.response.UserVerifyResponse;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.service.IAuthService;
 import com.nocountry.wallet.service.IUserService;
@@ -86,6 +88,22 @@ public class UserServiceImpl implements IUserService {
         }
         return response;
     }
+
+    @Override
+    public ResponseEntity<UserVerifyResponse> verify(Long id, UserVerifyRequest userVerifyRequest, String token) throws IOException {
+        ResponseEntity<UserVerifyResponse> response;
+        if (authService.roleValidator(id, token)){
+            UserEntity entity = userRepository.findById(id).orElseThrow();
+            entity.setVerify(userVerifyRequest.getVerify());
+
+            response = ResponseEntity.status(HttpStatus.OK).body(userMapper.userEntity2UserVerifyResponse(userRepository.save(entity)));
+        } else {
+            response = ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+        return response;
+    }
+
+
 
     public boolean validInput(String input){
         return (input != null && !input.isEmpty() && !input.isBlank());

@@ -90,6 +90,14 @@ public class UserMapper {
         userUpdateResponse.setPhoto(userEntity.getPhoto());
         return userUpdateResponse;
     }
+
+    public UserVerifyResponse userEntity2UserVerifyResponse(UserEntity userEntity) {
+        UserVerifyResponse userVerifyResponse = new UserVerifyResponse();
+        userVerifyResponse.setVerify(true);
+        return userVerifyResponse;
+    }
+
+
     /*
     public UserCreateDTO userEntity2DTO(UserEntity user){
         UserCreateDTO userDTO = new UserCreateDTO();
