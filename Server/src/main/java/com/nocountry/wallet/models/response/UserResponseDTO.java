@@ -19,4 +19,5 @@ public class UserResponseDTO {
     String creationDate;
     LocalDate birthDate;
     String jwt;
+    Boolean verify;
 }
