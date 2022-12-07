@@ -49,6 +49,9 @@ public class UserMapper {
     public UserResponseDTO convert2DTO(UserEntity dto) {
         return mapper.map(dto, UserResponseDTO.class);
     }
+    public UserRegisterDTO convert2RegDTO(UserEntity dto) {
+        return mapper.map(dto, UserRegisterDTO.class);
+    }
 
     public UserEntity convert2Entity(UserCreateDTO dto) {
         //return mapper.map(dto, UserEntity.class);
@@ -90,13 +93,5 @@ public class UserMapper {
         userUpdateResponse.setPhoto(userEntity.getPhoto());
         return userUpdateResponse;
     }
-    /*
-    public UserCreateDTO userEntity2DTO(UserEntity user){
-        UserCreateDTO userDTO = new UserCreateDTO();
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
-    }
-*/
+
 }

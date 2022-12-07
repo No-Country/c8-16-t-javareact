@@ -33,6 +33,9 @@ const PrincipalRoute = () => {
     if (pathname === "/app/verify-email" && showOn) {
       navigate("/app/onboarding");
     }
+    if(token && authUser && authUser.verified && pathname === '/') {
+          navigate('/app/dashboard')
+    }
   }, [authUser.verified]);
 
   console.log(token, showOn, isVerified, authUser.verified);
