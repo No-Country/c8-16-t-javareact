@@ -20,7 +20,7 @@ public class UserDetailDTO {
     Integer dni;
     String password;
     String photo;
-    Timestamp timestamp;
+    String birthDate;
     Collection<RoleEntity> roles;
     Collection<AccountWithoutUserDTO> accounts;
 
