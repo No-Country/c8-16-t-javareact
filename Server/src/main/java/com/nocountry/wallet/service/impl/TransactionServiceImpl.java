@@ -13,10 +13,8 @@ import com.nocountry.wallet.repository.AccountRepository;
 import com.nocountry.wallet.repository.TransactionRepository;
 import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.service.ITransactionService;
-import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
-import com.nocountry.wallet.utils.enumeration.ErrorEnum;
-import com.nocountry.wallet.utils.enumeration.TypeTransaction;
-import com.nocountry.wallet.utils.enumeration.UrlEnum;
+import com.nocountry.wallet.utils.enumeration.*;
+import com.nocountry.wallet.utils.transaction.Cashback;
 import com.nocountry.wallet.utils.transaction.Transaction;
 import com.nocountry.wallet.utils.transaction.TransactionFactory;
 import lombok.RequiredArgsConstructor;
@@ -52,37 +50,60 @@ public class TransactionServiceImpl implements ITransactionService {
     }
 
     public TransactionEntity makeTransaction(TransCreateDTO transDTO, Long user_id) {
-
+        Double amountCashback = transDTO.getAmount()*CashbackAmount.CASHBACK_AMOUNT.getPercent();
         log.info("Checking if account exist");
         AccountEntity account = accountRepository.findById(transDTO.getAccount_id()).orElseThrow(
                 () -> new TransactionException(ErrorEnum.OBJECT_NOT_FOUND.getMessage()));
         log.info("Create transaction object");
         Transaction transType = TransactionFactory.createTransaction(transDTO.getType());
 
-        checkTransLimit(account,transDTO.getAmount());
+        if(transType.getClass() == Cashback.class){
+            checkTransLimit(account, amountCashback);
+        }else {
+            checkTransLimit(account, transDTO.getAmount());
+        }
         log.info("Check if transaction type is send for create income transaction");
         if(transDTO.getType() == TypeTransaction.SEND){
 
             transDTO.setType(TypeTransaction.INCOME);
             log.info("Create new transaction with INCOME type");
-            this.makeTransaction(transDTO, user_id);//Here user_id value not matter. UserId only use when is a payment transaction
+            this.makeTransaction(transDTO, user_id);
             log.info("Set dto parameters for create SEND transaction");
             account = accountService.findByUserByCurrency(user_id, transDTO.getCurrency());
             transDTO.setAccount_id(account.getId());
             transDTO.setType(TypeTransaction.SEND);
         }
-        log.info("Updating account balance");
-        transType.updateBalance(account, transDTO.getAmount());
-        log.info("Create Transaction entity");
-        TransactionEntity newTrans = transactionMapper.convert2Entity(transDTO);
 
         log.info("Check if transaction type is payment for cashback logic");
         if(transDTO.getType() == TypeTransaction.PAYMENT){
             AccountEntity accountCashback = accountRepository.findByUserByCurrency(user_id, CurrencyEnum.BTC).orElseThrow(
                     () -> new TransactionException(ErrorEnum.OBJECT_NOT_FOUND.getMessage()));
             log.info("Update account cashback with add cashback amount");
-            cashback(accountCashback, transDTO.getAmount());
+
+            //TODO: cashback recursiva
+            Double paymentAmount = transDTO.getAmount();
+            log.info("Set account btc id for cashback");
+            transDTO.setAccount_id(accountCashback.getId());
+            transDTO.setType(TypeTransaction.CASHBACK);
+            log.info("Call recursive for cashback");
+            this.makeTransaction(transDTO, user_id);
+            transDTO.setType(TypeTransaction.PAYMENT);
+            transDTO.setAccount_id(account.getId());
+            transDTO.setAmount(paymentAmount);
         }
+
+        log.info("Updating account balance");
+        transType.updateBalance(account, transDTO.getAmount());
+        log.info("Create Transaction entity");
+        TransactionEntity newTrans = new TransactionEntity();
+        if(transType.getClass() == Cashback.class){
+            transDTO.setAmount(amountCashback);
+            newTrans = transactionMapper.convert2Entity(transDTO);
+
+        }else {
+            newTrans = transactionMapper.convert2Entity(transDTO);
+        }
+
         
         log.info("Persist Transaction");
         transactionRepository.save(newTrans);
@@ -150,16 +171,7 @@ public class TransactionServiceImpl implements ITransactionService {
             throw new TransactionException(ErrorEnum.TRANSACTION_LIMIT.getMessage());
         }
     }
-    private enum CashbackAmount{
-        CASHBACK_AMOUNT(0.05);
-        private Double amount;
-        CashbackAmount(Double percent){
-            this.amount= percent;
-        }
-        public Double getPercent(){return amount;}
-    }
-    private void cashback(AccountEntity account, Double amount){
-        account.setBalance(account.getBalance()+ amount*CashbackAmount.CASHBACK_AMOUNT.getPercent());
-    }
+
+
 }
 
