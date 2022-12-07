@@ -8,6 +8,7 @@ const useUserStore = create(
     user: {hey: 'jo'},
     isLogged: false,
     verified: false,
+    error: '',
 
     //actions
     signin: async() =>  {
@@ -28,6 +29,14 @@ const useUserStore = create(
         set({ verified: true})
       } catch (error) {
         console.log(error)
+      }
+    },
+    login: async() => {
+      try {
+        const { data } = await axios.post('https://flux-app.up.railway.app/auth/login');
+        localStorage.setItem("auth", JSON.stringify(data))
+      } catch (error) {
+        set({ error: 'Email o contraseña incorrectos'})
       }
     }
   }))
