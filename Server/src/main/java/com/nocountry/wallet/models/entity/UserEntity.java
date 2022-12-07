@@ -61,6 +61,7 @@ import java.util.Set;
         @Column(name= "birth_date", nullable = false)
         @DateTimeFormat(pattern = "dd-MM-yyyy")
         private LocalDate birthDate;
+
         @Column(name = "verify")
         private Boolean verify = Boolean.FALSE;
 

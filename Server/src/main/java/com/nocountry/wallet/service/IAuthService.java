@@ -15,4 +15,6 @@ public interface IAuthService {
     public boolean roleValidator(Long id, String token);
 
     public UserEntity getUserEntityByToken(String token);
+
+    public UserResponseDTO updateVerify(String email);
 }

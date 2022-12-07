@@ -33,4 +33,10 @@ public class AuthController {
 
         return ResponseEntity.ok(userService.userAuth(authRequest));
     }
+
+    @GetMapping("/verify")
+    public ResponseEntity<UserResponseDTO> verifyEmail(@RequestParam String email) {
+
+        return ResponseEntity.ok().body(authService.updateVerify(email));
+    }
 }

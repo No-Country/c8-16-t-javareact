@@ -13,15 +13,13 @@ import com.nocountry.wallet.security.config.PasswordEncoder;
 import com.nocountry.wallet.service.EmailService;
 import com.nocountry.wallet.service.IAccountService;
 import com.nocountry.wallet.service.IAuthService;
-import com.nocountry.wallet.service.impl.AccountServiceImpl;
-import com.nocountry.wallet.service.impl.EmailServiceImpl;
 import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
-import com.nocountry.wallet.utils.otpUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -47,6 +45,14 @@ public class AuthServiceImpl implements IAuthService {
 
     private final IAccountService accountService;
 
+
+    @Override
+    public UserResponseDTO updateVerify(String email){
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("Not found User"));
+        user.setVerify(true);
+        userRepository.save(user);
+        return userMapper.convert2DTO(user);
+    }
     @Override
     public UserRegisterDTO saveUser(UserCreateDTO dto){
         Optional<UserEntity> user = userRepository.findByEmail(dto.getEmail());
