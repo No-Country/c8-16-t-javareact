@@ -11,18 +11,39 @@ const useUserStore = create(
     error: '',
 
     //actions
-    signin: async() =>  {
+    signin: async(body) =>  {
       try {
-        localStorage.setItem("token", JSON.stringify('sdfewfefwfwefefwef'))
+        const { data } = await axios.post('https://flux-app.up.railway.app/auth/register', body);
+        localStorage.setItem("token", JSON.stringify(data.jwt));
+        sessionStorage.setItem("otp", JSON.stringify(data.otp))
+        const user = {
+          id: data.id,
+          email: data.email,
+          dni: data.dni,
+          photo: data.photo,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: data.birthDate,
+          verify: false,
+        }
+        localStorage.setItem("auth", JSON.stringify(user));
         set({ isLogged: true})
       } catch (error) {
         console.log(error);
       }
     },
-    verifyEmail: () => {
+    verifyEmail: async(email, headers) => {
       try {
+        const { data } = await axios.get(`https://flux-app.up.railway.app/auth/verify?email=${email}`, headers);
         const user = {
-          verified: true
+          id: data.id,
+          email: data.email,
+          dni: data.dni,
+          photo: data.photo,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: data.birthDate,
+          verify: data.verify,
         }
         localStorage.setItem("auth", JSON.stringify(user))
         localStorage.setItem("showOn", JSON.stringify(true))
@@ -31,10 +52,21 @@ const useUserStore = create(
         console.log(error)
       }
     },
-    login: async() => {
+    login: async(body) => {
       try {
-        const { data } = await axios.post('https://flux-app.up.railway.app/auth/login');
-        localStorage.setItem("auth", JSON.stringify(data))
+        const { data } = await axios.post('https://flux-app.up.railway.app/auth/login', body);
+        const user = {
+          id: data.id,
+          email: data.email,
+          dni: data.dni,
+          photo: data.photo,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          birthDate: data.birthDate,
+          verify: data.verify,
+        }
+        localStorage.setItem("auth", JSON.stringify(user));
+        localStorage.setItem("token", JSON.stringify(data.jwt));
       } catch (error) {
         set({ error: 'Email o contraseña incorrectos'})
       }

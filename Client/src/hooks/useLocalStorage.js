@@ -9,6 +9,6 @@ const useLocalStorage = () => {
   const showOn = JSON.parse(showOnJSON) || '';
   const authUser = JSON.parse(authUserJSON) || '';
 
-  return [token, showOn, authUser]
+  return { token, showOn, authUser }
 }
 export default useLocalStorage;

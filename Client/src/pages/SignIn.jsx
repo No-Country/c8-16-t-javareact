@@ -1,5 +1,5 @@
 import { validations } from "../utilities/validations";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from '../components/Layout';
 import Container from "../components/Container";
@@ -21,11 +21,11 @@ const SignIn = () => {
   const [values, setValues] = useState({
     email: "",
     dni: "",
-    birthdate: "",
-    name: "",
-    lastname: "",
+    birthDate: "",
+    firstName: "",
+    lastName: "",
+    photo: "",
     password: "",
-    confirmpassword: "",
   });
 
   const handleInputChange = (e) => {
@@ -42,45 +42,21 @@ const SignIn = () => {
     );
   };
 
-  const actionCodeSettings = {
-    // URL you want to redirect back to. The domain (www.example.com) for this
-    // URL must be in the authorized domains list in the Firebase Console.
-    url: 'http://127.0.0.1:5173/app/dashboard',
-    // This must be true.
-    handleCodeInApp: true,
-    iOS: {
-      bundleId: 'com.example.ios'
-    },
-    android: {
-      packageName: 'com.example.android',
-      installApp: true,
-      minimumVersion: '12'
-    },
-    dynamicLinkDomain: 'example.page.link'
-  };
-
   const handleSubmit = async(e) => {
     e.preventDefault();
-    signin();
-    // const auth = getAuth();
-    const email = 'quispealaya73@gmail.com'
-    const password = '123456'
-    // await createUserWithEmailAndPassword(auth, email, password)
-    sendSignInLinkToEmail(auth, email, actionCodeSettings)
-      .then(() => {
-        // The link was successfully sent. Inform the user.
-        // Save the email locally so you don't need to ask the user for it again
-        // if they open the link on the same device.
-        window.localStorage.setItem('emailForSignIn', email);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ...
-      });
-    console.log(auth)
+    const user = {
+      email: values.email,
+      dni: values.dni,
+      birthDate: values.birthDate,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      photo: values.photo,
+      password: values.password,
+    }
+    signin(user);
   };
+  
+  console.log(values)
 
   return (
     <Layout>
@@ -129,50 +105,50 @@ const SignIn = () => {
             <span id="dateContainer">
               <input
                 onBlur={() => {
-                  handleBlur("email");
+                  handleBlur("birthDate");
                 }}
-                value={values.birthdate}
-                name="birthdate"
+                // value={values.birthDate}
+                name="birthDate"
                 id="birthdate"
                 type="date"
                 placeholder="Fecha de nacimiento"
                 className="inputForm w-full"
                 onChange={handleInputChange}
               />
-              {errors.birthdate && touched == "birthdate" && (
-                <p className="errors">{errors.birthdate}</p>
+              {errors.birthDate && touched == "birthDate" && (
+                <p className="errors">{errors.birthDate}</p>
               )}
             </span>
 
             <span className="flex w-full gap-x-[10px]">
               <span className="flex flex-col">
                 <input
-                  onBlur={() => handleBlur("name")}
-                  value={values.name}
-                  name="name"
+                  onBlur={() => handleBlur("firstName")}
+                  value={values.firstName}
+                  name="firstName"
                   id="name"
                   type="text"
                   placeholder="Nombre"
                   className="inputForm w-full"
                   onChange={handleInputChange}
                 />
-                {errors.name && touched == "name" && (
-                  <p className="errors">{errors.name}</p>
+                {errors.firstName && touched == "firstName" && (
+                  <p className="errors">{errors.firstName}</p>
                 )}
               </span>
               <span>
                 <input
-                  onBlur={() => handleBlur("lastname")}
-                  value={values.lastname}
-                  name="lastname"
+                  onBlur={() => handleBlur("lastName")}
+                  value={values.lastName}
+                  name="lastName"
                   id="lastname"
                   type="text"
                   placeholder="Apellido"
                   className="inputForm w-full"
                   onChange={handleInputChange}
                 />
-                {errors.lastname && touched == "lastname" && (
-                  <p className="errors">{errors.lastname}</p>
+                {errors.lastName && touched == "lastName" && (
+                  <p className="errors">{errors.lastName}</p>
                 )}
               </span>
             </span>

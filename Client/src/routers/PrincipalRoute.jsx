@@ -11,9 +11,9 @@ import useUserStore from "../zustand/useUserStore";
 const PrincipalRoute = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [ token, showOn, authUser ] = useLocalStorage();
+  const { token, showOn, authUser } = useLocalStorage();
   const isLogged = token;
-  const isVerified= authUser.verified;
+  const isVerified= authUser.verify;
   const state = useUserStore((state) => state);
  
   useEffect(() => {
@@ -26,10 +26,10 @@ const PrincipalRoute = () => {
     if(pathname === '/app/verify-email' && showOn) {
       navigate("/app/onboarding")
     }
-    if(token && authUser && authUser.verified && pathname === '/') {
+    if(token && authUser && authUser.verify && pathname === '/') {
           navigate('/app/dashboard')
     }
-  }, [authUser.verified]);
+  }, [authUser.verify]);
 
   console.log(token, showOn, isVerified, authUser.verified)
   return (
