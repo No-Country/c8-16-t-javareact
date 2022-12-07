@@ -4,7 +4,7 @@ const PrivateRoutes = ({ isLogged, isVerified, children }) => {
   return (
     <>
       {
-        !(isLogged && isVerified) && <Navigate to='/app/verificateemail' />
+        // !(isLogged && isVerified) && <Navigate to='/app/verificateemail' />
           // ? 
           // <Navigate to='/app/home' /> 
           // : 
@@ -12,6 +12,9 @@ const PrivateRoutes = ({ isLogged, isVerified, children }) => {
       }
       {
         isLogged ? children : <Navigate to='/auth/login' />
+      }
+      {
+        // !isVerified && <Navigate to='/app/verify-email' />
       }
     </>
   )

@@ -5,20 +5,26 @@ import com.nocountry.wallet.mapper.UserMapper;
 import com.nocountry.wallet.models.entity.RoleEntity;
 import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
+import com.nocountry.wallet.models.response.UserRegisterDTO;
 import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.repository.RoleRepository;
 import com.nocountry.wallet.repository.UserRepository;
 import com.nocountry.wallet.security.config.PasswordEncoder;
-import com.nocountry.wallet.security.config.service.EmailService;
-import com.nocountry.wallet.security.config.service.IAuthService;
+import com.nocountry.wallet.service.EmailService;
+import com.nocountry.wallet.service.IAccountService;
+import com.nocountry.wallet.service.IAuthService;
+import com.nocountry.wallet.utils.enumeration.CurrencyEnum;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -28,7 +34,6 @@ import java.util.Set;
 public class AuthServiceImpl implements IAuthService {
 
     private final UserRepository userRepository;
-//    private final IAccountService iAccountService;
     private final UserDetailsCustomService userCustomService;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
@@ -38,25 +43,41 @@ public class AuthServiceImpl implements IAuthService {
     @Autowired
     EmailService emailService;
 
+    private final IAccountService accountService;
+
+
     @Override
-    public UserResponseDTO saveUser(UserCreateDTO dto){
+    public UserResponseDTO updateVerify(String email){
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(()->new UsernameNotFoundException("Not found User"));
+        user.setVerify(true);
+        userRepository.save(user);
+        return userMapper.convert2DTO(user);
+    }
+    @Override
+    public UserRegisterDTO saveUser(UserCreateDTO dto){
         Optional<UserEntity> user = userRepository.findByEmail(dto.getEmail());
         if (!user.isPresent()) {
             if(dto.getPassword().isEmpty())
                 throw new BadRequestException(ErrorEnum.EMPTY_PASS.getMessage());
+
             UserEntity entity = userMapper.convert2Entity(dto);
+            //entity.setBirthDate(LocalDate.parse(dto.getBirthDate(), DateTimeFormatter.ofPattern("d/MM/yyyy")));
+            entity.setBirthDate(dto.getBirthDate());
             entity.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(dto.getPassword()));
             Collection<RoleEntity> userRole = roleRepository.findByName("ROLE_USER");
             entity.setRoles((Set<RoleEntity>) userRole);
             UserEntity entitySaved = userRepository.save(entity);
-            //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.ARS));
-            //accountService.addAccount(entitySaved.getEmail(), new CurrencyDto(ECurrency.USD));
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.ARS.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.USDT.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.BTC.name());
+            accountService.createAccount(entitySaved.getId().intValue(), CurrencyEnum.ETH.name());
             if (!entitySaved.getEmail().contains("test"))
                 emailService.sendRegisterMail(entitySaved.getEmail());
-            UserResponseDTO responseDto = userMapper.convert2DTO(entitySaved);
+            UserRegisterDTO responseDto = userMapper.convert2RegDTO(entitySaved);
             AuthRequestDTO authDTO = new AuthRequestDTO(dto.getEmail(), dto.getPassword());
             AuthResponseDTO login = login(authDTO);
             responseDto.setJwt(login.getJwt());
+            responseDto.setOtp(emailService.getOtpCode());
             return responseDto;
         }else {
             throw new BadRequestException(ErrorEnum.USER_ALREADY_EXIST.getMessage());
@@ -102,4 +123,5 @@ public class AuthServiceImpl implements IAuthService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the searched user does not exist"));
         return userEntity;
     }
+
 }

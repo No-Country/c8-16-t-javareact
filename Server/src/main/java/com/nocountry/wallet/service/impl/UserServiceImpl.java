@@ -1,4 +1,4 @@
-package com.nocountry.wallet.security.config.service.impl;
+package com.nocountry.wallet.service.impl;
 
 import com.nocountry.wallet.auth.AuthRequestDTO;
 import com.nocountry.wallet.auth.JwtUtils;
@@ -8,10 +8,13 @@ import com.nocountry.wallet.models.entity.UserEntity;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateRequest;
 import com.nocountry.wallet.models.response.UserDetailDTO;
+import com.nocountry.wallet.models.response.UserPaginatedResponse;
+import com.nocountry.wallet.models.response.UserResponseDTO;
 import com.nocountry.wallet.models.response.UserUpdateResponse;
 import com.nocountry.wallet.repository.UserRepository;
-import com.nocountry.wallet.security.config.service.IAuthService;
-import com.nocountry.wallet.security.config.service.IUserService;
+import com.nocountry.wallet.service.IAuthService;
+import com.nocountry.wallet.service.IUserService;
+import com.nocountry.wallet.utils.PaginationUtils;
 import com.nocountry.wallet.utils.enumeration.ErrorEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -119,7 +122,7 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         if(userOptional.isEmpty())
             throw new BadRequestException(ErrorEnum.OBJECT_NOT_FOUND.getMessage());
 
-        return userMapper.convert2DetailDTO(userOptional.get());
+        return userMapper.convert2DetailDTO(userOptional.get(), true);
     }
     @Override
     public boolean save(UserCreateDTO userDTO){
@@ -138,7 +141,7 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         return false;
     }
     @Override
-    public String userAuth(AuthRequestDTO authRequest){
+    public UserResponseDTO userAuth(AuthRequestDTO authRequest){
         UserDetails userDetails;
         log.info("Try authenticate");
         try {
@@ -152,6 +155,17 @@ public ResponseEntity<Void> deleteUser(Long id, String token) {
         }
         log.info("Generate Token for {}", authRequest.getEmail());
         final String jwt = jwtUtils.generateToken(userDetails);
-        return jwt;
+
+        UserEntity entity = userRepository.findByEmail(authRequest.getEmail()).get();
+        UserResponseDTO dto = userMapper.convert2DTO(entity);
+        dto.setJwt(jwt);
+        return dto;
+    }
+
+    @Override
+    public UserPaginatedResponse findAllPaginated(Integer numberOfPage, Integer quantityOfResults) {
+        PaginationUtils pagination = new PaginationUtils(userRepository, numberOfPage, quantityOfResults, "/user/paginated?page=%d");
+        UserPaginatedResponse userPaginatedResponse = userMapper.paginationUtils2UserPaginationResponse(pagination);
+        return userPaginatedResponse;
     }
 }
