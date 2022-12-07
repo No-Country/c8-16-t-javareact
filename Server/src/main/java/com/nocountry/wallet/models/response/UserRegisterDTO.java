@@ -17,7 +17,8 @@ public class UserRegisterDTO {
     String firstName;
     String lastName;
     String creationDate;
-    LocalDate birthDate;
+    //LocalDate birthDate;
+    String birthDate;
     String jwt;
     String otp;
 

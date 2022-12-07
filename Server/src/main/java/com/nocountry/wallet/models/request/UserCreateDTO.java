@@ -20,7 +20,7 @@ public class UserCreateDTO {
     private String photo;
     @Max(value= 10)
     private String dni;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    //@DateTimeFormat(pattern = "dd-MM-yyyy")
     private String birthDate;
     @Size(min=8)
     private String password;
