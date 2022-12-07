@@ -2,13 +2,43 @@ import AplicationRouter from "./AplicationRouter";
 import PrivateRoutes from "./PrivateRoutes";
 import AuthRouter from "./AuthRouter";
 import PublicRoutes from "./PublicRoutes";
-import { Routes, Route, Navigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import Welcome from "../pages/Welcome";
+import { useEffect, useState } from "react";
+import useLocalStorage from "./../hooks/useLocalStorage";
+import useUserStore from "../zustand/useUserStore";
+import Transactions from "../pages/Transactions";
 
 const PrincipalRoute = () => {
-  const isLogged = true;
-  const isVerified = true;
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [token, showOn, authUser] = useLocalStorage();
+  const isLogged = token;
+  const isVerified = authUser.verified;
+  const state = useUserStore((state) => state);
 
+  useEffect(() => {
+    if (isLogged && !isVerified) {
+      navigate("/app/verify-email");
+    }
+    if (isLogged && isVerified && pathname === "/app/verify-email" && !showOn) {
+      navigate("/app/dashboard");
+    }
+    if (pathname === "/app/verify-email" && showOn) {
+      navigate("/app/onboarding");
+    }
+    if(token && authUser && authUser.verified && pathname === '/') {
+          navigate('/app/dashboard')
+    }
+  }, [authUser.verified]);
+
+  console.log(token, showOn, isVerified, authUser.verified);
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />
@@ -16,7 +46,7 @@ const PrincipalRoute = () => {
       <Route
         path="/auth/*"
         element={
-          <PublicRoutes isLogged={isLogged}>
+          <PublicRoutes isLogged={isLogged} isVerified={isVerified}>
             <AuthRouter />
           </PublicRoutes>
         }

@@ -1,10 +1,10 @@
-package com.nocountry.wallet.security.config.service.impl;
+package com.nocountry.wallet.service.impl;
 
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.nocountry.wallet.security.config.service.AwsService;
+import com.nocountry.wallet.service.AwsService;
 import com.nocountry.wallet.utils.AwsUtils;
 import com.nocountry.wallet.utils.MultiPartFileClass;
 import org.springframework.beans.factory.annotation.Autowired;

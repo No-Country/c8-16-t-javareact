@@ -2,7 +2,7 @@ package com.nocountry.wallet.mapper;
 
 import com.nocountry.wallet.models.entity.TransactionEntity;
 import com.nocountry.wallet.models.request.TransCreateDTO;
-import com.nocountry.wallet.models.request.TransDetailDTO;
+import com.nocountry.wallet.models.response.TransDetailDTO;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

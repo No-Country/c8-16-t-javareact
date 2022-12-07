@@ -44,8 +44,10 @@ public class AccountEntity {
     @Column(name = "soft_delete")
     private boolean softDelete = Boolean.FALSE;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private UserEntity user;
+    @Column(name = "user_id")
+    private Long userId;
 
 }

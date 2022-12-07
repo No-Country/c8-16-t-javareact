@@ -1,6 +1,8 @@
 package com.nocountry.wallet.models.response;
 
+import com.nocountry.wallet.models.entity.AccountEntity;
 import com.nocountry.wallet.models.entity.RoleEntity;
+import com.nocountry.wallet.models.request.AccountDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,5 +22,6 @@ public class UserDetailDTO {
     String photo;
     Timestamp timestamp;
     Collection<RoleEntity> roles;
+    Collection<AccountWithoutUserDTO> accounts;
 
 }

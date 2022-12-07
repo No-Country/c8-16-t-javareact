@@ -1,12 +1,16 @@
 package com.nocountry.wallet.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nocountry.wallet.models.request.AccountDTO;
+import com.nocountry.wallet.service.IAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
-    /*
+
     @Autowired(required = true)
     private IAccountService accountService;
 
@@ -16,9 +20,9 @@ public class AccountController {
             @RequestHeader(value = "Authorization") String token,
             @RequestParam(required = false) String currency) throws Exception {
 
-        AccountDTO accountDTO = accountService.createAccount(token, currency);
+        AccountDTO accountDTO = accountService.createAccount(Integer.parseInt(token), currency);
         return ResponseEntity.status(HttpStatus.CREATED).body(accountDTO);
     }
-*/
+
 
 }

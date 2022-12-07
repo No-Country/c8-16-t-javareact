@@ -1,8 +1,8 @@
 import { Navigate } from 'react-router-dom';
 
-const PublicRoutes = ({ children, isLogged }) => {
+const PublicRoutes = ({ children, isLogged, isVerified }) => {
 
-  return isLogged ? <Navigate to='/app/home' /> : children;
+  return !isLogged ? children : (isLogged && isVerified) ? <Navigate to='/app/dashboard' /> : <Navigate to='/app/verify-email' />;
 }
 
 export default PublicRoutes

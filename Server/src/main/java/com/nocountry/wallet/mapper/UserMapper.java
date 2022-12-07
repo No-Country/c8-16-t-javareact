@@ -1,31 +1,56 @@
 package com.nocountry.wallet.mapper;
 
 import com.nocountry.wallet.models.entity.UserEntity;
+import com.nocountry.wallet.models.request.AccountDTO;
 import com.nocountry.wallet.models.request.UserCreateDTO;
 import com.nocountry.wallet.models.request.UserUpdateDTO;
-import com.nocountry.wallet.models.response.UserDetailDTO;
-import com.nocountry.wallet.models.response.UserResponseDTO;
-import com.nocountry.wallet.models.response.UserUpdateResponse;
-import com.nocountry.wallet.security.config.service.AwsService;
+import com.nocountry.wallet.models.response.*;
+import com.nocountry.wallet.service.AwsService;
+import com.nocountry.wallet.utils.PaginationUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component@AllArgsConstructor
+@Component @AllArgsConstructor
 public class UserMapper {
 
     private final ModelMapper mapper;
+    private final AccountMapper accountMapper;
 
-    @Autowired
-    AwsService awsService;
+    private final AwsService awsService;
 
+
+    public UserPaginatedResponse paginationUtils2UserPaginationResponse(PaginationUtils pagination) {
+
+        Page page = pagination.getPage();
+        List<UserEntity> userEntityList =  page.getContent();
+        List<UserResponseDTO> userResponseList = userEntityList2UserResponseList(userEntityList);
+
+        UserPaginatedResponse userPaginatedResponse = new UserPaginatedResponse();
+        userPaginatedResponse.setUserPageContent(userResponseList);
+        userPaginatedResponse.setPreviousPage(pagination.getPrevious());
+        userPaginatedResponse.setNextPage(pagination.getNext());
+        return userPaginatedResponse;
+    }
+
+    public List<UserResponseDTO> userEntityList2UserResponseList(List<UserEntity> userEntityList) {
+        List<UserResponseDTO> mapperResponse = new ArrayList<>();
+        for (UserEntity ent: userEntityList) {
+            UserResponseDTO res = convert2DTO(ent);
+            mapperResponse.add(res);
+        }
+        return mapperResponse;
+    }
 
     public UserResponseDTO convert2DTO(UserEntity dto) {
         return mapper.map(dto, UserResponseDTO.class);
+    }
+    public UserRegisterDTO convert2RegDTO(UserEntity dto) {
+        return mapper.map(dto, UserRegisterDTO.class);
     }
 
     public UserEntity convert2Entity(UserCreateDTO dto) {
@@ -39,13 +64,19 @@ public class UserMapper {
         return user;
     }
 
-    public UserDetailDTO convert2DetailDTO(UserEntity entity) {
-        return mapper.map(entity, UserDetailDTO.class);
+    public UserDetailDTO convert2DetailDTO(UserEntity entity, boolean loadAccounts) {
+        UserDetailDTO dto = mapper.map(entity, UserDetailDTO.class);
+
+        if (loadAccounts){
+            List<AccountWithoutUserDTO> accDTOs = accountMapper.convert2ListWithoutUserDTO(entity.getAccounts());
+            dto.setAccounts(accDTOs);
+        }
+        return dto;
     }
 
     public List<UserDetailDTO> convertEntities2ListDTO(List<UserEntity> entities) {
         List<UserDetailDTO> result = new ArrayList<>();
-        entities.forEach(entity -> result.add(convert2DetailDTO(entity)));
+        entities.forEach(entity -> result.add(convert2DetailDTO(entity, false)));
         return result;
     }
 
@@ -62,13 +93,5 @@ public class UserMapper {
         userUpdateResponse.setPhoto(userEntity.getPhoto());
         return userUpdateResponse;
     }
-    /*
-    public UserCreateDTO userEntity2DTO(UserEntity user){
-        UserCreateDTO userDTO = new UserCreateDTO();
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
-    }
-*/
+
 }

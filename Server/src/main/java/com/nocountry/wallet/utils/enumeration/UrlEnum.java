@@ -2,7 +2,7 @@ package com.nocountry.wallet.utils.enumeration;
 
 public enum UrlEnum {
 
-    MAIN_PATH("http://localhost:8080/");
+    MAIN_PATH("https://flux-app.up.railway.app");
 
     private String path;
 

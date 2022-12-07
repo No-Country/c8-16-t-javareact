@@ -11,6 +11,7 @@ module.exports = {
       },
       fontFamily: {
         Raleway: "'Raleway', sans-serif;",
+        Poppins: "'Poppins', sans-serif;",
       },
     },
   },
