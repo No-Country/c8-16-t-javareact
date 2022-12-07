@@ -11,6 +11,9 @@ const AplicationRouter = () => {
         <Route path="/profile" element={"Profile"} />
         <Route path="/verificateemail" element={<VerifyPage />} />
         <Route path="/profilebar" element={<ProfileBar />} />
+        <Route path="/dashboard" element={<ProfileBar />} />
+        <Route path="/investments" element={<ProfileBar />} />
+        <Route path="/transactions" element={<ProfileBar />} />
         {/* <Route path='/not_found' element={'Not Found'}/>
         <Route path={'/*'} element={<Navigate to='/not_found' replace />}/> */}
       </Routes>
