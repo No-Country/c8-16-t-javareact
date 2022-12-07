@@ -57,10 +57,14 @@ import java.util.Set;
 
         @Column(name = "soft_delete", nullable = false)
         private Boolean softDelete = Boolean.FALSE;
-
+/*
         @Column(name= "birth_date", nullable = false)
         @DateTimeFormat(pattern = "dd-MM-yyyy")
         private LocalDate birthDate;
+*/
+        @Column(name= "birth_date", nullable = false)
+        private String birthDate;
+
 
         @Column(name = "verify")
         private Boolean verify = Boolean.FALSE;
@@ -75,7 +79,7 @@ import java.util.Set;
 
 
         public UserEntity(String firstName, String lastName, String email, String dni, String password, String photo,
-                          Timestamp creationDate, Set<RoleEntity> roleEntity, List<AccountEntity> accounts, LocalDate birthDate) {
+                          Timestamp creationDate, Set<RoleEntity> roleEntity, List<AccountEntity> accounts, String birthDate) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;

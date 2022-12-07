@@ -61,7 +61,8 @@ public class AuthServiceImpl implements IAuthService {
                 throw new BadRequestException(ErrorEnum.EMPTY_PASS.getMessage());
 
             UserEntity entity = userMapper.convert2Entity(dto);
-            entity.setBirthDate(LocalDate.parse(dto.getBirthDate(), DateTimeFormatter.ofPattern("d/MM/yyyy")));
+            //entity.setBirthDate(LocalDate.parse(dto.getBirthDate(), DateTimeFormatter.ofPattern("d/MM/yyyy")));
+            entity.setBirthDate(dto.getBirthDate());
             entity.setPassword(passwordEncoder.bCryptPasswordEncoder().encode(dto.getPassword()));
             Collection<RoleEntity> userRole = roleRepository.findByName("ROLE_USER");
             entity.setRoles((Set<RoleEntity>) userRole);

@@ -93,13 +93,5 @@ public class UserMapper {
         userUpdateResponse.setPhoto(userEntity.getPhoto());
         return userUpdateResponse;
     }
-    /*
-    public UserCreateDTO userEntity2DTO(UserEntity user){
-        UserCreateDTO userDTO = new UserCreateDTO();
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setPassword(user.getPassword());
-        return userDTO;
-    }
-*/
+
 }
