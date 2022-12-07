@@ -5,12 +5,12 @@ import { RiMoneyDollarCircleLine } from "react-icons/ri";
 
 const MenuBar = () => {
   return (
-    <div className="menuBarContainer w-[360px] h-[60px] bg-lightGreen rounded-t-[5px] flex mx-auto fixed bottom-0">
+    <div className="menuBarContainer flex sm:hidden w-full h-[60px] bg-lightGreen rounded-t-[5px] mx-auto fixed bottom-0">
       <span className="w-10/12 flex justify-between items-center mx-auto">
         <Link to="app/home">
-          <MdHomeFilled className="text-white text-[26px]"/>
+          <MdHomeFilled className="text-white text-[26px]" />
         </Link>
-        <Link to="app/transactions" >
+        <Link to="app/transactions">
           <BiTrendingUp className="text-white text-[26px]" />
         </Link>
         <Link to="">
