@@ -3,24 +3,26 @@ import { useState } from "react"
 import Container from "../components/Container"
 import Layout from "../components/Layout"
 import { Link } from 'react-router-dom';
+import useUserStore from './../zustand/useUserStore';
 
 const LogIn = () => {
-const [values, setValues] = useState({
-  email:"",
-  password:""
-})
-const handleInputChange = (e) => {
-  const {name, value} = e.target 
-  setValues({
-    ...values,
-    [name] : value
+  const { login } = useUserStore((state) => state);
+  const [values, setValues] = useState({
+    email:"",
+    password:""
   })
-}
-console.log(values);
+  const handleInputChange = (e) => {
+    const {name, value} = e.target 
+    setValues({
+      ...values,
+      [name] : value
+    })
+  }
 
-const handleSubmit = () => {
-  alert("datos enviados")
-}
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login();
+  }
 
 
   return (
