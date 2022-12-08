@@ -12,6 +12,7 @@ public class TransactionFactory {
             case DEPOSIT -> new Deposit();
             case SEND -> new Send();
             case EXCHANGE -> new Exchange();
+            case CASHBACK -> new Cashback();
         };
 
     }
