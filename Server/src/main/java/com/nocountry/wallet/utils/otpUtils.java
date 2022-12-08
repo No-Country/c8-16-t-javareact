@@ -9,7 +9,7 @@ public class otpUtils {
 
     public String otpStarter() {
 
-        int codigo = (int) (999999 * Math.random());
+        int codigo = (int) (Math.random() * (999999 - 100000)) + 100000;
 
         //System.out.println(codigo);
 
