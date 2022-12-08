@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import Layout from '../components/Layout';
 import Container from "../components/Container";
 import useUserStore from './../zustand/useUserStore';
-import { createUserWithEmailAndPassword, getAuth, sendSignInLinkToEmail } from "firebase/auth";
 import { auth } from '../firebas/index';
 
 
@@ -26,6 +25,7 @@ const SignIn = () => {
     lastName: "",
     photo: "",
     password: "",
+    confirmpassword: ""
   });
 
   const handleInputChange = (e) => {
@@ -53,10 +53,14 @@ const SignIn = () => {
       photo: values.photo,
       password: values.password,
     }
-    signin(user);
+    if (Object.values(errors).length === 0) {
+      signin(user);
+    } else {
+      alert('Llenar los campos faltantes')
+    }
   };
   
-  console.log(values)
+  console.log(errors, Object.values(errors).length)
 
   return (
     <Layout>

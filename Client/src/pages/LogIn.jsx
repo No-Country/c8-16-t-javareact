@@ -4,9 +4,11 @@ import Container from "../components/Container"
 import Layout from "../components/Layout"
 import { Link } from 'react-router-dom';
 import useUserStore from './../zustand/useUserStore';
+import { useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
   const { login } = useUserStore((state) => state);
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     email:"",
     password:""
@@ -19,9 +21,14 @@ const LogIn = () => {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    login();
+    if(values.email && values.password) {
+      await login(values);
+      location.reload()
+    } else {
+      alert('Usuario o contraseña incorrecta')
+    }
   }
 
 
