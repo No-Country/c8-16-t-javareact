@@ -1,4 +1,3 @@
-
 import SliderButtons from "../components/SliderButtons";
 import ContainerTransactions from "../components/ContainerTransactions";
 import LayoutNavigation from './../components/LayoutNavigation';
@@ -15,8 +14,6 @@ function Transactions() {
       </div>
         <ContainerTransactions />
     </LayoutNavigation>
-
-
   );
 }
 
