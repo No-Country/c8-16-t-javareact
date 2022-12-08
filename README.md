@@ -14,7 +14,7 @@ Year: 2022.
 - Pintos Guillermo        *BackENd*
 
 
-## Front Techconologies
+## Front Technologies
 
 - *React*
 - *Zustand(state management)*
@@ -22,7 +22,7 @@ Year: 2022.
 - *Framer Motion (animaciones)*
 - *Sweet alert(para las alertas)*
 
-## Back Techconologies
+## Back Technologies
 
 - *Springboot*
 - *JWT*
