@@ -32,15 +32,15 @@ const VerifyEmail = () => {
   }
 
   const handleVerifyEmail = () => {
-    let emailOTPJSON = sessionStorage.getItem("key");
+    let emailOTPJSON = sessionStorage.getItem("otp");
     const emailOTP = JSON.parse(emailOTPJSON)
-    // if(emailOTP === otp.join('')) {
+    if(emailOTP === otp.join('')) {
       const header = headers(token)
       verifyEmail(authUser.email, header)
-    // } else {
-    //   alert('Codigo Incorrecto')
-    // }
-    console.log(header)
+    } else {
+      alert('Codigo Incorrecto')
+    }
+    console.log(emailOTP)
   }
 
   useEffect(() => {

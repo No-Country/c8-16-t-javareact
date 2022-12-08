@@ -38,7 +38,7 @@ const PrincipalRoute = () => {
     }
   }, [authUser.verify]);
 
-  console.log(token, showOn, isVerified, authUser.verified);
+  console.log(token, showOn, isVerified, authUser.verify);
   return (
     <Routes>
       <Route path="/" element={<Welcome />} />

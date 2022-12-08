@@ -6,12 +6,12 @@ export const validations = (values) => {
 
     let errors = {};
 
-    if (!values.name) {
-        errors.name = "Ingresá un nombre"
+    if (!values.firstName) {
+        errors.firstName = "Ingresá un nombre"
     }
 
-    if (!values.lastname) {
-        errors.lastname = "Ingresá un Apellido"
+    if (!values.lastName) {
+        errors.lastName = "Ingresá un Apellido"
     }
 
     if (!emailRegEx.test(values.email)) {
@@ -45,8 +45,8 @@ export const validations = (values) => {
         errors.dni = "DNI Inválido"
     }
 
-    if (!values.birthdate){
-        errors.birthdate = "Campo obligatorio"
+    if (!values.birthDate){
+        errors.birthDate = "Campo obligatorio"
     }
 
     return errors;
