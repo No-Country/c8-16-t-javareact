@@ -7,10 +7,10 @@ import ContainerTransactions from "../components/ContainerTransactions";
 
 function Transactions() {
   return (
-    <div>
+    <div className="">
       <ProfileBar />
 
-      <h4 className="text-base mt-5 ml-6 font-Poppins font-bold relative ">
+      <h4 className="text-base mt-5  ml-6 font-Poppins font-bold relative  ">
         Transacciones
       </h4>
 
