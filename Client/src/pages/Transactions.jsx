@@ -1,25 +1,22 @@
-import React from "react";
 
-import ProfileBar from "./ProfileBar";
-import MenuBar from "./MenuBar";
 import SliderButtons from "../components/SliderButtons";
 import ContainerTransactions from "../components/ContainerTransactions";
+import LayoutNavigation from './../components/LayoutNavigation';
 
 function Transactions() {
+  
   return (
-    <div>
-      <ProfileBar />
+    <LayoutNavigation>
+      <div className="px-[24px] py-[20px] font-Poppins border-b-2 overflow-hidden ">
+        <h4 className="text-base font-bold relative mb-8">
+          Transacciones
+        </h4>
+        <SliderButtons />
+      </div>
+        <ContainerTransactions />
+    </LayoutNavigation>
 
-      <h4 className="text-base mt-5 ml-6 font-Poppins font-bold relative ">
-        Transacciones
-      </h4>
 
-      <SliderButtons />
-
-      <ContainerTransactions />
-
-      <MenuBar />
-    </div>
   );
 }
 

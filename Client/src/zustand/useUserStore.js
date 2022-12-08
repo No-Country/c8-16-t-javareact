@@ -9,10 +9,12 @@ const useUserStore = create(
     isLogged: false,
     verified: false,
     error: '',
+    loading: false,
 
     //actions
     signin: async(body) =>  {
       try {
+        set({ loading: true})
         const { data } = await axios.post('https://flux-app.up.railway.app/auth/register', body);
         localStorage.setItem("token", JSON.stringify(data.jwt));
         sessionStorage.setItem("otp", JSON.stringify(data.otp))
@@ -27,6 +29,7 @@ const useUserStore = create(
           verify: false,
         }
         localStorage.setItem("auth", JSON.stringify(user));
+        set({ loading: false})
         set({ isLogged: true})
       } catch (error) {
         console.log(error);
@@ -70,6 +73,12 @@ const useUserStore = create(
       } catch (error) {
         set({ error: 'Email o contraseña incorrectos'})
       }
+    },
+    logout: () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('auth');
+      set({ isLogged: false})
+      set({ verified: false})
     }
   }))
 );

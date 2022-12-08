@@ -5,7 +5,6 @@ const Welcome = () => {
 
   const { user } = useUserStore((state) => state);
 
-  console.log(user)
   return (
     <div className="w-full h-screen flex flex-col justify-start items-center  bg-gradient-to-t from-lightGreen to-darkGreen">
       <div className=" w-40 h-40 text-4xl  rounded-full flex justify-center items-center mt-[15vh] ">

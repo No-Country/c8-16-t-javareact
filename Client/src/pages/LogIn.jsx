@@ -1,14 +1,15 @@
-
 import { useState } from "react"
 import Container from "../components/Container"
 import Layout from "../components/Layout"
 import { Link } from 'react-router-dom';
 import useUserStore from './../zustand/useUserStore';
 import { useNavigate } from 'react-router-dom';
+import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 const LogIn = () => {
   const { login } = useUserStore((state) => state);
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
   const [values, setValues] = useState({
     email:"",
     password:""
@@ -31,7 +32,6 @@ const LogIn = () => {
     }
   }
 
-
   return (
     <Layout>
       <Container>
@@ -49,13 +49,25 @@ const LogIn = () => {
               onChange={handleInputChange} 
               className="inputForm w-full" 
             />
-            <input 
-              value={values.password} 
-              name="password" id="password" 
-              type="password" placeholder="Ingrese su contraseña" 
-              onChange={handleInputChange} 
-              className="inputForm w-full"
-            />
+            <div className="relative">
+              <input 
+                value={values.password} 
+                name="password" 
+                id="password" 
+                type={isActive ? 'text' : 'password'} 
+                placeholder="Ingrese su contraseña" 
+                onChange={handleInputChange} 
+                className="inputForm w-full"
+              />
+              <span onClick={() => setIsActive(!isActive)}>
+                {isActive 
+                  ?
+                  <BsFillEyeSlashFill size={22}  className="absolute top-2 right-3 cursor-pointer text-darkGrey" />
+                  :
+                  <BsFillEyeFill size={22}  className="absolute top-2 right-3 cursor-pointer text-darkGrey "/>
+                }
+              </span>
+            </div>
           </div>
           <button
             type="submit"
